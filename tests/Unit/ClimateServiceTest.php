@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-class ClimateDataSetsTests
+class ClimateServiceTest extends TestCase
 {
     /**
      * Expect a dataset of the tide’s level relative to sea level for each hour of the day.
@@ -31,9 +31,6 @@ class ClimateDataSetsTests
             ]
          ];
 
-        $this->visit('/api/tides')
-            // ->seeJsonStructure(['data' => [['type', 'attributes' => ['review', 'review_date']]]])
-            ->seeJson(['dataset' => $hourly_tide_results['dataset']]);
     }
 
     /**
