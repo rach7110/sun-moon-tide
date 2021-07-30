@@ -6,7 +6,7 @@ use Tests\TestCase;
 // use PHPUnit\Framework\TestCase;
 
 
-class DataSetsTest extends TestCase
+class ClimateDataSetsTest extends TestCase
 {
     /**
      * Expect a climate dataset: tide hourly level, sun hourly position, moon hourly position, and moon phase.
@@ -21,9 +21,11 @@ class DataSetsTest extends TestCase
         $long = 123456;
 
 
-        // $response = $this->getJson('/api/climate')
-        $response = $this->get('/api/climate')
-        ->assertSee('dataset');
+        $response = $this->getJson('/api/climate')
+            ->assertJsonFragment(['type' => 'moon']);
+
+        // $response = $this->get('/api/climate')
+        // ->assertSee('dataset');
 
         // ->assertJsonCount($all_competitors->count(), 'data')
         // ->assertJsonStructure(['data' => [['type', 'id', 'attributes' => ['name', 'competitor_name', 'competitor_id', 'connected', 'zip']]]])

@@ -9,47 +9,46 @@ class ClimateDataController extends Controller
 {
     public function index()
     {
-        $dataset = [
+        $climate_dataset = [
             'dataset' => [
-                'type' => 'tide',
-                'units' => ['hour', 'feet above mean sea level'],
-                'values' =>  [
-                    0 => 1.0,
-                    1 => 0.0,
-                    2 => 1.0,
-                    3 => 2.5,   // and so on
-                ],
-                [
-                    'type' => 'sun',
-                    'units' => ['hour', 'miles above horizon'],
-                    'values' =>  [
-                        0 => 1.0,
-                        1 => 0.0,
-                        2 => 1.0,
-                        3 => 2.5,   // and so on
+                    [
+                        'type' => 'tide',
+                        'units' => ['hour', 'feet above mean sea level'],
+                        'values' =>  [
+                            '1' => 1.0,
+                            '2' => 1.0,
+                            '3' => 2.5,   // and so on
+                        ]
+                    ],
+                    [
+                        'type' => 'sun',
+                        'units' => ['hour', 'miles above horizon'],
+                        'values' =>  [
+                            '1' => 1.0,
+                            '2' => 1.0,
+                            '3' => 2.5,   // and so on
+                        ]
+                    ],
+                    [
+                        'type' => 'moon',
+                        'units' => ['hour', 'miles above horizon'],
+                        'values' =>  [
+                            '1' => 1.0,
+                            '2' => 1.0,
+                            '3' => 2.5,   // and so on
+                        ]
+                    ],
+                    [
+                        'type' => 'moon_phase',
+                        'value' => 'some_phase'
                     ]
-                ],
-                [
-                    'type' => 'moon',
-                    'units' => ['hour', 'miles above horizon'],
-                    'values' =>  [
-                        0 => 1.0,
-                        1 => 0.0,
-                        2 => 1.0,
-                        3 => 2.5,   // and so on
-                    ]
-                ],
-                [
-                    'type' => 'moon_phase',
-                    'value' => 'some_phase'
-                ]
             ]
         ];
 
         $data = fractal()
-            ->collection($dataset, new ClimateDataTransformer, 'dataset')
+            ->collection($climate_dataset, new ClimateDataTransformer, 'climate_dataset')
             ->toArray();
 
-        return collect($dataset);
+        return collect($climate_dataset);
     }
 }
