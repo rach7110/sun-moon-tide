@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/climate', 'ClimateDataController@index');
+Route::get('/climate', 'ClimateDatasetsController@index');

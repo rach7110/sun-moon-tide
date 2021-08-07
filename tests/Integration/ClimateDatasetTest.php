@@ -6,7 +6,7 @@ use Tests\TestCase;
 // use PHPUnit\Framework\TestCase;
 
 
-class ClimateDataSetsTest extends TestCase
+class ClimateDatasetTest extends TestCase
 {
     /**
      * Expect a climate dataset: tide hourly level, sun hourly position, moon hourly position, and moon phase.

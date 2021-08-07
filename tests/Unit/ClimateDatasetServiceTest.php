@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-class ClimateServiceTest extends TestCase
+class ClimateDatasetServiceTest extends TestCase
 {
     /**
      * Expect a dataset of the tide’s level relative to sea level for each hour of the day.

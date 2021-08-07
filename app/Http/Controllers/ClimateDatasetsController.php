@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Transformers\ClimateDatasetTransformer;
 use Illuminate\Http\Request;
-use App\Transformers\ClimateDataTransformer;
 
-class ClimateDataController extends Controller
+class ClimateDatasetsController extends Controller
 {
     public function index()
     {
@@ -46,7 +46,7 @@ class ClimateDataController extends Controller
         ];
 
         $data = fractal()
-            ->collection($climate_dataset, new ClimateDataTransformer, 'climate_dataset')
+            ->collection($climate_dataset, new ClimateDatasetTransformer, 'climate_dataset')
             ->toArray();
 
         return collect($climate_dataset);
