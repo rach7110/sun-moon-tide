@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ThirdPartyApi;
+namespace App\Contracts;
 
 interface ClimateServiceContract
 {
