@@ -4,36 +4,34 @@ namespace App\ThirdPartyApi;
 
 use App\Contracts\ClimateProviderContract;
 
-class Noaa implements ClimateProviderContract
+class Solunar implements ClimateProviderContract
 {
     protected $date;
     protected $location;
-
-    /**
-     * Climate dataset from external api for a given date.
-     *
-     * @var array
-     */
+    protected $timezone;
     protected $climate_dataset;
-
-    protected $url;
-
+    protected $base_url;
     protected $token;
 
     public function __construct()
     {
-        $this->url = config('climate.noaa.base_url');
-        $this->token = config('climate.noaa.token');
+        $this->base_url = config('climate.solunar.base_url');
+        $this->token = config('climate.solunar.token');
     }
 
     public function set_date($date)
     {
-        // TODO
+        $this->date = $date;
     }
 
     public function set_location($location)
     {
-        // TODO
+        $this->location = $location;
+    }
+
+    public function set_timezone($timezone)
+    {
+        $this->timezone = $timezone;
     }
 
     public function set_climate_data()
@@ -62,13 +60,13 @@ class Noaa implements ClimateProviderContract
      */
     protected function fetch()
     {
-        $header[] = "token: {$this->token}";
+        $url =  "{$this->base_url}/{$this->date},{$this->location},{$this->timezone}";
 
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, $this->url);
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($curl, CURLOPT_HEADER, false);
 
         $data = curl_exec($curl);
 
