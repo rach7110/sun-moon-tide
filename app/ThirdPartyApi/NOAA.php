@@ -28,11 +28,11 @@ class Noaa implements ClimateProviderContract
         $success = false;
         $response = $this->fetch();
 
-        if ($response['success']) {
+        // if ($response['success']) {  // TODO
             $this->climate_dataset = $response;
 
             return $success = true;
-        }
+        // }
 
         return $success;
     }
@@ -47,7 +47,7 @@ class Noaa implements ClimateProviderContract
      *
      * @return array
      */
-    public function fetch()
+    protected function fetch()
     {
         $header[] = "token: {$this->token}";
 
