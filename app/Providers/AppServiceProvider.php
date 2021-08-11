@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Contracts\ClimateProviderContract;
+use App\ThirdPartyApi\Solunar;
 class AppServiceProvider extends ServiceProvider
 {
     /**
