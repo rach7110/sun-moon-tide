@@ -9,13 +9,9 @@ class NoaaService implements ClimateServiceContract
 {
     protected $dataset;
 
-    public function __construct(Noaa $provider)
+    public function set_data($dataset)
     {
-        if (!$provider->get_climate_data()) {
-            $provider->set_climate_data();
-        }
-
-        $this->dataset = $provider->get_climate_data();
+        $this->dataset = $dataset;
     }
 
     public function moon_rise()

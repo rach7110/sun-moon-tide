@@ -9,7 +9,6 @@ class Solunar implements ClimateProviderContract
     protected $date;
     protected $location;
     protected $timezone;
-    protected $climate_dataset;
     protected $base_url;
     protected $token;
 
@@ -34,31 +33,12 @@ class Solunar implements ClimateProviderContract
         $this->timezone = $timezone;
     }
 
-    public function set_climate_data()
-    {
-        $success = false;
-        $response = $this->fetch();
-
-        // if ($response['success']) {  // TODO
-            $this->climate_dataset = $response;
-
-            return $success = true;
-        // }
-
-        return $success;
-    }
-
-    public function get_climate_data()
-    {
-        return $this->climate_dataset;
-    }
-
     /**
      * Send a curl request to the external api.
      *
-     * @return array
+     * @return array $data
      */
-    protected function fetch()
+    public function fetch()
     {
         $url =  "{$this->base_url}/{$this->date},{$this->location},{$this->timezone}";
 

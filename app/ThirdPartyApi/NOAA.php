@@ -9,13 +9,6 @@ class Noaa implements ClimateProviderContract
     protected $date;
     protected $location;
 
-    /**
-     * Climate dataset from external api for a given date.
-     *
-     * @var array
-     */
-    protected $climate_dataset;
-
     protected $url;
 
     protected $token;
@@ -36,31 +29,12 @@ class Noaa implements ClimateProviderContract
         // TODO
     }
 
-    public function set_climate_data()
-    {
-        $success = false;
-        $response = $this->fetch();
-
-        // if ($response['success']) {  // TODO
-            $this->climate_dataset = $response;
-
-            return $success = true;
-        // }
-
-        return $success;
-    }
-
-    public function get_climate_data()
-    {
-        return $this->climate_dataset;
-    }
-
     /**
      * Send a curl request to the external api.
      *
-     * @return array
+     * @return array $data
      */
-    protected function fetch()
+    public function fetch()
     {
         $header[] = "token: {$this->token}";
 

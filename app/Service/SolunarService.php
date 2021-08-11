@@ -8,7 +8,7 @@ class SolunarService implements ClimateServiceContract
 {
     protected $dataset;
 
-    public function __construct($dataset)
+    public function set_data($dataset)
     {
         $this->dataset = $dataset;
     }
