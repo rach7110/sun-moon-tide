@@ -3,19 +3,14 @@
 namespace App\ThirdPartyApi;
 
 use App\Contracts\ClimateServiceContract;
-use App\ThirdPartyApi\Solunar;
 
 class SolunarService implements ClimateServiceContract
 {
     protected $dataset;
 
-    public function __construct(Solunar $provider)
+    public function __construct($dataset)
     {
-        if (!$provider->get_climate_data()) {
-            $provider->set_climate_data();
-        }
-
-        $this->dataset = $provider->get_climate_data();
+        $this->dataset = $dataset;
     }
 
     public function moon_rise()
