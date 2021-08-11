@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ClimateProviderContract::class, Solunar::class);
+        $this->app->bind(ClimateServiceContract::class, SolunarService::class);
     }
 
     /**
