@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ThirdPartyApi;
+namespace App\Service;
 
 use App\Contracts\ClimateServiceContract;
 use App\ThirdPartyApi\Noaa;
