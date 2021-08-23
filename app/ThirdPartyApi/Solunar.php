@@ -2,9 +2,8 @@
 
 namespace App\ThirdPartyApi;
 
-use App\Contracts\ClimateProviderContract;
-
-class Solunar implements ClimateProviderContract
+/** Interacts with the Solunar external API. */
+class Solunar
 {
     protected $date;
     protected $location;
@@ -23,14 +22,19 @@ class Solunar implements ClimateProviderContract
         $this->date = $date;
     }
 
-    public function set_location($location)
+    public function set_location($zip)
     {
-        $this->location = $location;
+        $this->location = $this->convertToLatLong($zip);
     }
 
     public function set_timezone($timezone)
     {
         $this->timezone = $timezone;
+    }
+
+    protected function convertToLatLong($zip)
+    {
+        // TODO
     }
 
     /**
