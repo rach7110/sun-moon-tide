@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Contracts\ClimateProviderContract;
-use App\ThirdPartyApi\Solunar;
+use App\Contracts\ClimateServiceContract;
+use App\Service\SolunarService;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -14,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ClimateProviderContract::class, Solunar::class);
         $this->app->bind(ClimateServiceContract::class, SolunarService::class);
     }
 
