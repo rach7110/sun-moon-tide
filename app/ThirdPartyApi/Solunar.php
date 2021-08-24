@@ -2,6 +2,8 @@
 
 namespace App\ThirdPartyApi;
 
+use Exception;
+
 /** Interacts with the Solunar external API. */
 class Solunar
 {
@@ -17,9 +19,49 @@ class Solunar
         $this->token = config('climate.solunar.token');
     }
 
-    public function set_date($date)
+    /**
+     * If date is valid, set as class property.
+     * Otherwise, throw an exception.
+     *
+     * @param int|string $month
+     * @param int|string $day
+     * @param int|string $year
+     * @return void
+     */
+    public function set_date($month, $day, $year)
     {
+        $day = trim($day, 0);
+        $month = trim($month, 0);
+
+        $is_valid_date = checkdate(intval($month), intval($day), intval($year));
+
+        // Throw exception if date is not valid.
+        if (! $is_valid_date) {
+            throw new Exception('Date is not valid');
+        }
+
+        $date = $this->format_date($month, $day, $year);
+
         $this->date = $date;
+    }
+
+    /**
+     * Format values to yyyymmdd format.
+     *
+     * @param int|string $month
+     * @param int|string $day
+     * @param int|string $year
+     * @return $string $date
+     */
+    public function format_date($month, $day, $year)
+    {
+        //
+        $month = $month < 10 ? "0{$month}" : $month;
+        $day = $day < 10 ? "0{$day}" : $day;
+
+        $date = $year . $month . $day;
+
+        return $date;
     }
 
     public function set_location($zip)
@@ -27,9 +69,35 @@ class Solunar
         $this->location = $this->convertToLatLong($zip);
     }
 
+    /**
+     * Set a valid timezone
+     * @param string $timezone
+     * @return void
+     */
     public function set_timezone($timezone)
     {
-        $this->timezone = $timezone;
+        $this->timezone = $this->valid_timezone($timezone) ? $timezone : null;
+    }
+
+    /**
+     * Must be between -11 to 14.
+     * (Negative for timezones west of UTC and
+     * positive numbers for timezones east of UTC.)
+     *
+     * @param string|int $tz
+     * @return bool
+     */
+    protected function valid_timezone($tz)
+    {
+
+        $valid_format = preg_match('/^-?[0-9]/', $tz);
+        $valid_range = ($tz >= -11) && ($tz <= 14);
+
+        if (! $valid_format || ! $valid_range) {
+            throw new Exception('Timezone is not valid.');
+        }
+
+        return true;
     }
 
     protected function convertToLatLong($zip)
