@@ -2,12 +2,16 @@
 
 namespace App\ThirdPartyApi;
 
+use DateTime;
 use Exception;
 
 /** Interacts with the Solunar external API. */
 class Solunar
 {
     protected $date;
+    protected $day;
+    protected $month;
+    protected $year;
     protected $location;
     protected $timezone;
     protected $base_url;
@@ -23,43 +27,70 @@ class Solunar
      * If date is valid, set as class property.
      * Otherwise, throw an exception.
      *
-     * @param int|string $month
-     * @param int|string $day
-     * @param int|string $year
+     * @param int|string $date
      * @return void
      */
-    public function set_date($month, $day, $year)
+    public function set_date($date)
     {
-        $day = trim($day, 0);
-        $month = trim($month, 0);
+        // Check the date is in the correct format
+        $format = 'm-d-Y';
+        $date_object = DateTime::createFromFormat($format, $date);
 
-        $is_valid_date = checkdate(intval($month), intval($day), intval($year));
-
-        // Throw exception if date is not valid.
-        if (! $is_valid_date) {
-            throw new Exception('Date is not valid');
+        if (! $date_object || !$date_object->format($format) == $date) {
+            throw new Exception('Date is not formatted correctly.');
         }
 
-        $date = $this->format_date($month, $day, $year);
-
-        $this->date = $date;
+        if ($this->valid($date)) {
+            $this->date = $this->format_date();
+        }
     }
 
     /**
-     * Format values to yyyymmdd format.
+     * Check date is valid.
      *
-     * @param int|string $month
-     * @param int|string $day
-     * @param int|string $year
-     * @return $string $date
+     * @param string $date
+     * @return bool
      */
-    public function format_date($month, $day, $year)
+    protected function valid($date)
     {
-        //
-        $month = $month < 10 ? "0{$month}" : $month;
-        $day = $day < 10 ? "0{$day}" : $day;
+        $m = substr($date, 0, strpos($date, '-'));
 
-        $date = $year . $month . $day;
+        $day_substring = substr($date, strpos($date, '-') + 1);
+        $d = substr($day_substring, 0, strpos($day_substring, '-'));
+
+        $year_substring = strrchr($date, '-'); //"-2002"
+        $y = substr($year_substring, strpos($year_substring,'-') + 1);
+
+        $valid_date = checkdate($m, $d, $y);
+
+        if (! $valid_date) {
+            throw new Exception('Date is not valid');
+        }
+
+        $this->month = $m;
+        $this->day = $d;
+        $this->year = $y;
+
+        return true;
+    }
+
+    /**
+     * Format values to yyyymmdd format for Solunar API.
+     *
+     * @return $string|NULL $date
+     */
+    public function format_date()
+    {
+        if ($this->month && $this->day && $this->year) {
+            $month = intval($this->month);
+            $day = intval($this->day);
+
+            // Month and day need proceeding zeros.
+            $m = $month < 10 ? "0{$month}" : $month;
+            $d = $day < 10 ? "0{$day}" : $day;
+
+            $date = $this->year . $m . $d;
+        }
 
         return $date;
     }
