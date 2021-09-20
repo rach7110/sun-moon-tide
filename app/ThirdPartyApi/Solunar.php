@@ -46,7 +46,8 @@ class Solunar
     }
 
     /**
-     * Check date is valid.
+     * Check date is valid. Must be in month-day-year format.
+     * For example, 05-75-2002 is not a valid date.
      *
      * @param string $date
      * @return bool
