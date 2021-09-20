@@ -15,7 +15,7 @@ class ClimateDatasetsController extends Controller
         // TODO: create view for form inputs.
     }
 
-    public function fetch(Request $request, Solunar $provider, ClimateServiceContract $climate_svc)
+    public function store(Request $request, Solunar $provider, ClimateServiceContract $climate_svc)
     {
         $validated = $request->validate([
             'date' => 'required|date_format:d-m-Y',
