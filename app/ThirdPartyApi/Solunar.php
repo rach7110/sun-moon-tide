@@ -23,6 +23,11 @@ class Solunar
         $this->token = config('climate.solunar.token');
     }
 
+    public function get_date()
+    {
+        return $this->date;
+    }
+
     /**
      * If date is valid, set as class property.
      * Otherwise, throw an exception.
@@ -30,7 +35,7 @@ class Solunar
      * @param int|string $date
      * @return void
      */
-    public function set_date($date)
+    public function format_and_set_date($date)
     {
         // Check the date is in the correct format
         $format = 'm-d-Y';
