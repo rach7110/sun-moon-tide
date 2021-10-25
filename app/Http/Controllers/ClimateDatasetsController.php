@@ -17,7 +17,7 @@ class ClimateDatasetsController extends Controller
 
     //TODO: why not move provider to a class dependency on the service class? Change service class so it inherits an abstract class instead of an interface.
     // https://www.w3schools.com/php/php_oop_interfaces.asp
-    public function store(Request $request, Solunar $provider, ClimateServiceContract $climate_svc)
+    public function fetch(Request $request, Solunar $provider, ClimateServiceContract $climate_svc)
     {
         $validated = $request->validate([
             'date' => 'required|date_format:d-m-Y',

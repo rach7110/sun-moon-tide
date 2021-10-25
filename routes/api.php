@@ -15,4 +15,4 @@ use App\Http\Controllers\ClimateDatasetsController;
 */
 
 Route::get('/climate/create', [ClimateDatasetsController::class, 'create']);
-Route::post('/climate', [ClimateDatasetsController::class, 'store']);
+Route::post('/climate', [ClimateDatasetsController::class, 'fetch']);
