@@ -40,7 +40,7 @@ class Solunar
             throw new Exception('Date is not formatted correctly.');
         }
 
-        if ($this->valid($date)) {
+        if ($this->valid_date($date)) {
             $this->date = $this->format_date();
         }
     }
@@ -52,7 +52,7 @@ class Solunar
      * @param string $date
      * @return bool
      */
-    protected function valid($date)
+    private function valid_date($date)
     {
         $m = substr($date, 0, strpos($date, '-'));
 
@@ -80,7 +80,7 @@ class Solunar
      *
      * @return $string|NULL $date
      */
-    public function format_date()
+    private function format_date()
     {
         if ($this->month && $this->day && $this->year) {
             $month = intval($this->month);
@@ -96,13 +96,45 @@ class Solunar
         return $date;
     }
 
+    /**
+     * Set a valid location. Otherwise, throw an exception.
+     *
+     * @param int|string $date
+     * @return void
+     */
     public function set_location($zip)
     {
-        $this->location = $this->convertToLatLong($zip);
+        if ($this->valid_zip($zip)) {
+            $this->location = $this->convertToLatLong($zip);
+        }
     }
 
     /**
-     * Set a valid timezone
+     * Check zip is valid. Must be 5 digits.
+     *
+     * @param string|int $zip
+     * @return bool
+     */
+    private function valid_zip($zip)
+    {
+        // TODO
+    }
+
+    /**
+     * Convert United States zip code to a latitude and longitude.
+     * Zip code must be 5 digits long.
+     *
+     * @param string $zip
+     * @return // TODO
+     */
+    private function convertToLatLong($zip)
+    {
+        // TODO
+    }
+
+    /**
+     * Set a valid timezone.
+     *
      * @param string $timezone
      * @return void
      */
@@ -112,14 +144,14 @@ class Solunar
     }
 
     /**
-     * Must be between -11 to 14.
+     * Check a timezone is valid, which must be between -11 to 14.
      * (Negative for timezones west of UTC and
      * positive numbers for timezones east of UTC.)
      *
      * @param string|int $tz
      * @return bool
      */
-    protected function valid_timezone($tz)
+    private function valid_timezone($tz)
     {
 
         $valid_format = preg_match('/^-?[0-9]/', $tz);
@@ -130,11 +162,6 @@ class Solunar
         }
 
         return true;
-    }
-
-    protected function convertToLatLong($zip)
-    {
-        // TODO
     }
 
     /**
