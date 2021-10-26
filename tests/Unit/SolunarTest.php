@@ -38,14 +38,23 @@ class SolunarTest extends TestCase
         $this->assertEquals("20211031", $formatted_date);
     }
 
+    public function test_throws_exception_for_invalid_timezone()
+    {
+        $this->expectException(\Exception::class);
+        $this->solunar->format_timezone(-15);
+    }
+
+    public function test_formats_timezone_for_api()
+    {
+        $tz = -11;
+        $this->assertEquals("-11", $this->solunar->format_timezone($tz));
+    }
+
     // public function test_formats_location_for_api()
     // {
     //     // TODO
     // }
 
-    // public function test_formats_timezone_for_api()
-    // {
-    //     // TODO
-    // }
+
 
 }
