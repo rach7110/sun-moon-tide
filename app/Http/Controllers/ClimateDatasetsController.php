@@ -25,14 +25,11 @@ class ClimateDatasetsController extends Controller
         ]);
 
         if ($validated) {
-            $provider->set_date($request->input('date'));
+            $date = $provider->format_date($request->input('date'));
+            $tz = $provider->format_timezone("-11");
+            $location = $provider->format_location("42.66,-84.07"); // TODO: replace lat long with zip. For testing only.
 
-            // TODO: use a default timezone if one is not provided.
-            $provider->set_timezone("-11");
-
-            $provider->set_location("42.66,-84.07");
-
-            $data = $provider->fetch();
+            $data = $provider->fetch($date, $tz, $location);
 
             $climate_svc->set_data($data);
 

@@ -8,12 +8,6 @@ use Exception;
 /** Interacts with the Solunar external API. */
 class Solunar
 {
-    protected $date;
-    protected $day;
-    protected $month;
-    protected $year;
-    protected $location;
-    protected $timezone;
     protected $base_url;
     protected $token;
 
@@ -23,104 +17,89 @@ class Solunar
         $this->token = config('climate.solunar.token');
     }
 
-    public function get_date()
+    /**
+     * Format values to yyyymmdd format for Solunar API.
+     *
+     * @param int|string $date
+     * @return $string $date
+     */
+    public function format_date($date)
     {
-        return $this->date;
+        $this->validate_date($date);
+        $month = intval($this->month($date));
+        $day = intval($this->day($date));
+        $year = intval($this->year($date));
+
+        // Month and day need proceeding zeros.
+        $m = $month < 10 ? "0{$month}" : $month;
+        $d = $day < 10 ? "0{$day}" : $day;
+
+        $date = $year . $m . $d;
+
+        return $date;
     }
 
     /**
-     * If date is valid, set as class property.
-     * Otherwise, throw an exception.
+     * Throw an exception if date is invalid. Must be in month-day-year format.
+     * And must be valid numbers.
+     * For example, 05-75-2002 is not a valid date.
+     * Otherwise,
      *
-     * @param int|string $date
+     * @param string $date
      * @return void
+     *
+     * @throws Exception if date is not formatted correctly.
+     * @throws Exception if date is not valid.
      */
-    public function format_and_set_date($date)
+    private function validate_date($date)
     {
         // Check the date is in the correct format
         $format = 'm-d-Y';
         $date_object = DateTime::createFromFormat($format, $date);
 
         if (! $date_object || !$date_object->format($format) == $date) {
-            throw new Exception('Date is not formatted correctly.');
+            throw new Exception('Date is not formatted correctly. Must be m-d-Y');
         }
 
-        if ($this->valid_date($date)) {
-            $this->date = $this->format_date();
-        }
-    }
+        // Get month, day, and year.
+        $m = $this->month($date);
+        $d = $this->day($date);
+        $y = $this->year($date);
 
-    /**
-     * Check date is valid. Must be in month-day-year format.
-     * For example, 05-75-2002 is not a valid date.
-     *
-     * @param string $date
-     * @return bool
-     */
-    private function valid_date($date)
-    {
-        $m = substr($date, 0, strpos($date, '-'));
-
-        $day_substring = substr($date, strpos($date, '-') + 1);
-        $d = substr($day_substring, 0, strpos($day_substring, '-'));
-
-        $year_substring = strrchr($date, '-'); //"-2002"
-        $y = substr($year_substring, strpos($year_substring,'-') + 1);
-
+        // Check date contains valid numbers.
         $valid_date = checkdate($m, $d, $y);
 
         if (! $valid_date) {
             throw new Exception('Date is not valid');
         }
 
-        $this->month = $m;
-        $this->day = $d;
-        $this->year = $y;
-
         return true;
     }
 
     /**
-     * Format values to yyyymmdd format for Solunar API.
+     * Formats a valid zip code to latitude and longitude.
      *
-     * @return $string|NULL $date
+     * @param int|string $zip
+     * @return string location
      */
-    private function format_date()
+    public function format_location($zip)
     {
-        if ($this->month && $this->day && $this->year) {
-            $month = intval($this->month);
-            $day = intval($this->day);
+        $this->validate_zip($zip);
 
-            // Month and day need proceeding zeros.
-            $m = $month < 10 ? "0{$month}" : $month;
-            $d = $day < 10 ? "0{$day}" : $day;
+        $location = $this->convertToLatLong($zip);
 
-            $date = $this->year . $m . $d;
-        }
-
-        return $date;
+        return $location;
     }
 
     /**
-     * Set a valid location. Otherwise, throw an exception.
-     *
-     * @param int|string $date
-     * @return void
-     */
-    public function set_location($zip)
-    {
-        if ($this->valid_zip($zip)) {
-            $this->location = $this->convertToLatLong($zip);
-        }
-    }
-
-    /**
-     * Check zip is valid. Must be 5 digits.
+     * Throw an exception if zip is invalid. Must be 5 digits.
      *
      * @param string|int $zip
-     * @return bool
+     * @return void
+
+     * @throws Exception if zip is invalid.
      */
-    private function valid_zip($zip)
+    private function validate_zip($zip)
     {
         // TODO
     }
@@ -138,14 +117,16 @@ class Solunar
     }
 
     /**
-     * Set a valid timezone.
+     * Format valid timezone.
      *
      * @param string $timezone
-     * @return void
+     * @return string $tz
      */
-    public function set_timezone($timezone)
+    public function format_timezone($timezone = "0")
     {
-        $this->timezone = $this->valid_timezone($timezone) ? $timezone : null;
+        $this->validate_timezone($timezone);
+
+        return strval($timezone);
     }
 
     /**
@@ -154,29 +135,69 @@ class Solunar
      * positive numbers for timezones east of UTC.)
      *
      * @param string|int $tz
-     * @return bool
+     * @return void
+     *
+     * @throws Exception if timezone is not valid.
      */
-    private function valid_timezone($tz)
+    private function validate_timezone($tz)
     {
-
         $valid_format = preg_match('/^-?[0-9]/', $tz);
         $valid_range = ($tz >= -11) && ($tz <= 14);
 
         if (! $valid_format || ! $valid_range) {
             throw new Exception('Timezone is not valid.');
         }
+    }
 
-        return true;
+    /**
+     * Get the numeric month from a date in mm-dd-yyyy format.
+     *
+     * @param string $date
+     * @return int $month
+     */
+    private function month($date)
+    {
+        return substr($date, 0, strpos($date, '-'));
+    }
+
+    /**
+     * Get the numeric day from a date in mm-dd-yyyy format.
+     *
+     * @param string $date
+     * @return int $day
+     */
+    private function day($date)
+    {
+        $day_substring = substr($date, strpos($date, '-') + 1);
+        $day = substr($day_substring, 0, strpos($day_substring, '-'));
+
+        return $day;
+    }
+    /**
+     * Get the year from a date in mm-dd-yyyy format.
+     *
+     * @param string $date
+     * @return int $year
+     */
+    private function year($date)
+    {
+        $year_substring = strrchr($date, '-'); //"-2002"
+        $year = substr($year_substring, strpos($year_substring,'-') + 1);
+
+        return $year;
     }
 
     /**
      * Send a curl request to the external api.
      *
+     * @param string $date
+     * @param string $tz
+     * @param string $location
      * @return array $data
      */
-    public function fetch()
+    public function fetch($date, $tz, $location)
     {
-        $url =  "{$this->base_url}/{$this->date},{$this->location},{$this->timezone}";
+        $url =  "{$this->base_url}/{$date},{$location},{$tz}";
 
         $curl = curl_init();
 

@@ -16,28 +16,36 @@ class SolunarTest extends TestCase
         $this->solunar = new Solunar;
     }
 
-    public function test_throws_exception_for_incorrect_dates()
+    public function test_throws_exception_for_bad_dates()
     {
         $incorrect_date_format = "31-10-2021";
         $invalid_date = "10-99-2021";
         $this->expectException(\Exception::class);
 
         // Should throw exception if date is not formatted correctly.
-        $this->solunar->format_and_set_date($incorrect_date_format);
+        $this->solunar->format_date($incorrect_date_format);
 
         // Should throw exception if date is not valid.
-        $this->solunar->format_and_set_date($invalid_date);
+        $this->solunar->format_date($invalid_date);
     }
 
-    public function test_sets_valid_date_for_solunar_api()
+    public function test_formats_date_for_solunar_api()
     {
         $date = "10-31-2021";
-        $formatted_date = "20211031";
 
-        $this->solunar->format_and_set_date($date);
+        $formatted_date = $this->solunar->format_date($date);
 
-        $this->assertEquals($formatted_date, $this->solunar->get_date());
+        $this->assertEquals("20211031", $formatted_date);
     }
 
+    // public function test_formats_location_for_api()
+    // {
+    //     // TODO
+    // }
+
+    // public function test_formats_timezone_for_api()
+    // {
+    //     // TODO
+    // }
 
 }
