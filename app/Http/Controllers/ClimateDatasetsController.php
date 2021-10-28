@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ClimateServiceContract;
-use App\ThirdPartyApi\Solunar;
+use App\ThirdPartyApi\Solunar\Solunar;
 use App\Transformers\ClimateDatasetTransformer;
+use Exception;
 use Illuminate\Http\Request;
 
 class ClimateDatasetsController extends Controller
@@ -25,9 +26,18 @@ class ClimateDatasetsController extends Controller
         ]);
 
         if ($validated) {
-            $date = $provider->format_date($request->input('date'));
-            $tz = $provider->format_timezone("-11");
-            $location = $provider->format_location("42.66,-84.07"); // TODO: replace lat long with zip. For testing only.
+            $date = $request->input('date');
+            $tz = $request->input('timezone', '11');
+            $location = "42.66,-84.07"; // TODO: replace lat long stub with zip. For testing only.
+
+            try {
+                $provider->validate($date, $tz, $location);
+                $provider->format($date, $tz, $location);
+            } catch (Exception $e) {
+                print_r($e->getMessage()); // TODO: handle
+            }
+
+            exit();
 
             $data = $provider->fetch($date, $tz, $location);
 
