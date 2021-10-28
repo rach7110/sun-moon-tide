@@ -7,15 +7,30 @@ trait FormatsInput
 {
     use ExtractsDate;
 
-    protected $formatted_date;
-    protected $formatted_timezone;
-    protected $formatted_location;
+    private $formatted_date;
+    private $formatted_timezone;
+    private $formatted_location;
 
     public function format($date, $tz, $location)
     {
         $this->formatted_date = $this->format_date($date);
         $this->formatted_timezone = $this->format_timezone($tz);
-        // $this->formatted_location = $this->format_location($location);
+        $this->formatted_location = $this->format_location($location);
+    }
+
+    public function get_formatted_date()
+    {
+        return $this->formatted_date;
+    }
+
+    public function get_formatted_timezone()
+    {
+        return $this->formatted_timezone;
+    }
+
+    public function get_formatted_location()
+    {
+        return $this->formatted_location;
     }
 
     /**
@@ -74,5 +89,4 @@ trait FormatsInput
     {
         // TODO <-- HERE*************
     }
-
 }

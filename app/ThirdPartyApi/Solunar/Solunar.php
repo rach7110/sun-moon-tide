@@ -19,14 +19,11 @@ class Solunar
     /**
      * Send a curl request to the external api.
      *
-     * @param string $date
-     * @param string $tz
-     * @param string $location
-     * @return array $data
+     * @return array $response
      */
-    public function fetch($date, $tz, $location)
+    public function fetch()
     {
-        $url =  "{$this->base_url}/{$date},{$location},{$tz}";
+        $url =  "{$this->base_url}/{$this->get_formatted_date()},{$this->get_formatted_location()},{$this->get_formatted_timezone()}";
 
         $curl = curl_init();
 
