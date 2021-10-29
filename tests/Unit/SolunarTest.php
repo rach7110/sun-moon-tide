@@ -43,26 +43,22 @@ class SolunarTest extends TestCase
     public function test_formats_date_for_solunar_api()
     {
         $date = "10-31-2021";
-        $this->solunar->format($date, $this->timezone, $this->location);
 
-        $this->assertEquals("20211031", $this->solunar->get_formatted_date());
+        $this->assertEquals("20211031", $this->solunar->format_date($date));
     }
 
     public function test_formats_timezone_for_solunar_api()
     {
         $tz = -11;
-        $this->solunar->format($this->date, $tz, $this->location);
 
-        $this->assertEquals("-11", $this->solunar->get_formatted_timezone($tz));
+        $this->assertEquals("-11", $this->solunar->format_timezone($tz));
     }
 
     public function test_formats_location_for_api()
     {
         $zip = "78704";
-        $output = "30.24152,-97.76877";
+        $expected = "30.24152,-97.76877";
 
-        $this->solunar->format($this->date, $this->timezone, $zip);
-
-        $this->assertEquals($output, $this->solunar->get_formatted_location());
+        $this->assertEquals($expected, $this->solunar->format_location($zip));
     }
 }

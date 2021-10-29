@@ -7,39 +7,13 @@ trait FormatsInput
 {
     use ExtractsDate;
 
-    private $formatted_date;
-    private $formatted_timezone;
-    private $formatted_location;
-
-    public function format($date, $tz, $location)
-    {
-        $this->formatted_date = $this->format_date($date);
-        $this->formatted_timezone = $this->format_timezone($tz);
-        $this->formatted_location = $this->format_location($location);
-    }
-
-    public function get_formatted_date()
-    {
-        return $this->formatted_date;
-    }
-
-    public function get_formatted_timezone()
-    {
-        return $this->formatted_timezone;
-    }
-
-    public function get_formatted_location()
-    {
-        return $this->formatted_location;
-    }
-
     /**
      * Format values to yyyymmdd format for Solunar API.
      *
      * @param int|string $date
-     * @return $string $date
+     * @return $string $formatted_date
      */
-    private function format_date($date)
+    public function format_date($date)
     {
         $month = intval($this->month($date));
         $day = intval($this->day($date));
@@ -49,18 +23,18 @@ trait FormatsInput
         $m = $month < 10 ? "0{$month}" : $month;
         $d = $day < 10 ? "0{$day}" : $day;
 
-        $date = $year . $m . $d;
+        $formatted_date = $year . $m . $d;
 
-        return $date;
+        return $formatted_date;
     }
 
     /**
      * Format timezone.
      *
      * @param string $timezone
-     * @return string $tz
+     * @return string
      */
-    private function format_timezone($timezone = "0")
+    public function format_timezone($timezone = "0")
     {
         return strval($timezone);
     }
@@ -69,21 +43,22 @@ trait FormatsInput
      * Formats a zip code to latitude and longitude.
      *
      * @param int|string $zip
-     * @return string location
+     * @return string formatted_location
      */
-    private function format_location($zip)
+    public function format_location($zip)
     {
-        $location = $this->convertToLatLong($zip);
+        $formatted_location = $this->convertToLatLong($zip);
 
-        return $location;
+        return $formatted_location;
     }
 
     /**
      * Convert United States zip code to a latitude and longitude.
      * Zip code must be 5 digits long.
+     * Output example: "30.24152,-97.76877"
      *
      * @param string $zip
-     * @return // TODO
+     * @return string $lat_long
      */
     private function convertToLatLong($zip)
     {

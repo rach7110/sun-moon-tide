@@ -28,20 +28,23 @@ class ClimateDatasetsController extends Controller
         if ($validated) {
             $date = $request->input('date');
             $tz = $request->input('timezone', '11');
-            $location = "42.66,-84.07"; // TODO: replace lat long stub with zip. For testing only.
+            $zip = $request->input('zip');
 
             try {
-                $provider->validate($date, $tz, $location);
-                $provider->format($date, $tz, $location);
+                $provider->validate($date, $tz, $zip);
             } catch (Exception $e) {
                 print_r($e->getMessage()); // TODO: handle
             }
 
-            exit();
+            $formatted_date = $provider->format_date($date);
+            $formatted_timezone = $provider->format_timezone($tz);
+            $formatted_location = $provider->format_location($zip);
 
-            $data = $provider->fetch($date, $tz, $location);
+            exit("So far so good"); // HERE ***********
 
-            $climate_svc->set_data($data);
+            $response = $provider->fetch();
+
+            $climate_svc->set_data($response);
 
             $climate_dataset = [
                 'moon_rise' => $climate_svc->moon_rise(),
