@@ -56,13 +56,13 @@ class SolunarTest extends TestCase
         $this->assertEquals("-11", $this->solunar->get_formatted_timezone($tz));
     }
 
-    // public function test_formats_location_for_api()
-    // {
-    //     $zip = "78704";
-    //     $output = "30.24152,-97.76877";
+    public function test_formats_location_for_api()
+    {
+        $zip = "78704";
+        $output = "30.24152,-97.76877";
 
-    //     $this->solunar->format($this->date, $this->timezone, $zip);
+        $this->solunar->format($this->date, $this->timezone, $zip);
 
-    //     $this->assertEquals($output, $this->solunar->get_formatted_location());
-    // }
+        $this->assertEquals($output, $this->solunar->get_formatted_location());
+    }
 }
