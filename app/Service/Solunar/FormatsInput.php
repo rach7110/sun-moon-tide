@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ThirdPartyApi\Solunar;
+namespace App\Service\Solunar;
 
 /** Formats inputs for Solunar API. */
 trait FormatsInput

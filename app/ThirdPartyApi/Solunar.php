@@ -1,12 +1,10 @@
 <?php
 
-namespace App\ThirdPartyApi\Solunar;
+namespace App\ThirdPartyApi;
 
 /** Interacts with the Solunar external API. */
 class Solunar
 {
-    use FormatsInput, ValidatesInput;
-
     protected $base_url;
     protected $token;
 
@@ -19,11 +17,11 @@ class Solunar
     /**
      * Send a curl request to the external api.
      *
-     * @return array $response
+     * @return Object $response
      */
-    public function fetch()
+    public function fetch($date, $timezone, $location)
     {
-        $url =  "{$this->base_url}/{$this->get_formatted_date()},{$this->get_formatted_location()},{$this->get_formatted_timezone()}";
+        $url =  "{$this->base_url}/{$date},{$location},{$timezone}";  // TODO: use constant for directory sep.
 
         $curl = curl_init();
 
@@ -31,7 +29,7 @@ class Solunar
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, false);
 
-        $data = curl_exec($curl);
+        $data = json_decode(curl_exec($curl));
 
         curl_close($curl);
 

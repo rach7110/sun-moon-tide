@@ -4,6 +4,8 @@ namespace App\Contracts;
 
 interface ClimateServiceContract
 {
+    public function format_inputs($inputs);
+    public function fetch_data($inputs);
     public function set_data($data);
     public function moon_rise();
     public function moon_set();
