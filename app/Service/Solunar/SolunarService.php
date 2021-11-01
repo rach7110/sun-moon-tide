@@ -10,10 +10,10 @@ class SolunarService implements ClimateServiceContract
 {
     use FormatsInput, ValidatesInput;
 
-    /** Solunar API */
+    /** Provider class that connects to the Solunar API */
     private $provider;
 
-    /** Dataset from the Solunar api */
+    /** Dataset from the Solunar API */
     private $dataset;
 
     /**
@@ -45,12 +45,12 @@ class SolunarService implements ClimateServiceContract
     {
         $date = $this->format_date($inputs['date']);
         $timezone = $this->format_timezone($inputs['timezone']);
-        $zip = $this->format_location($inputs['zipcode']);
+        $location = $this->format_location($inputs['zipcode']);
 
         $formatted = [
-            'date' => $date,
-            'timezone' => $timezone,
-            'zipcode' => $zip
+            'formatted_date' => $date,
+            'formatted_timezone' => $timezone,
+            'formatted_location' => $location
         ];
 
         return $formatted;
@@ -64,7 +64,11 @@ class SolunarService implements ClimateServiceContract
      */
     public function fetch_data($inputs)
     {
-        $dataset = $this->provider->fetch($inputs['formatted_date'], $inputs['formatted_timezone'], $inputs['formatted_location']);
+        $dataset = $this->provider->fetch(
+            $inputs['formatted_date'],
+            $inputs['formatted_timezone'],
+            $inputs['formatted_location']
+        );
 
         return $dataset;
     }

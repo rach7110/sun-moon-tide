@@ -49,9 +49,9 @@ class SolunarServiceTest extends TestCase
         ];
 
         $expected = [
-            'date' => '20211031',
-            'timezone' => '9',
-            'zipcode' => "30.24152,-97.76877"
+            'formatted_date' => '20211031',
+            'formatted_timezone' => '9',
+            'formatted_location' => "30.24152,-97.76877"
         ];
 
         $this->assertEquals($expected, $this->solunar_svc->format_inputs($inputs));
