@@ -2,23 +2,10 @@
 
 namespace Test\Unit;
 
-use App\Service\Solunar\SolunarService;
-use Tests\TestCase;
+use Tests\Unit\SolunarServiceBaseTest;
 
-class SolunarServiceTest extends TestCase
+class SolunarServiceTest extends SolunarServiceBaseTest
 {
-    private $solunar;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->solunar_svc = new SolunarService;
-        $this->date = "10-31-2021";
-        $this->timezone = 9;
-        $this->zipcode = 78704;
-    }
-
     public function test_throws_exception_for_bad_dates()
     {
         $incorrect_date_format = "31-10-2021";
@@ -56,4 +43,6 @@ class SolunarServiceTest extends TestCase
 
         $this->assertEquals($expected, $this->solunar_svc->format_inputs($inputs));
     }
+
+
 }
