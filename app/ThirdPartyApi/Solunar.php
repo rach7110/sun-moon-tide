@@ -21,7 +21,7 @@ class Solunar
      */
     public function fetch($date, $timezone, $location)
     {
-        $url =  "{$this->base_url}/{$date},{$location},{$timezone}";  // TODO: use constant for directory sep.
+        $url =  "{$this->base_url}/{$location},{$date},{$timezone}";  // TODO: use constant for directory sep.
 
         $curl = curl_init();
 
