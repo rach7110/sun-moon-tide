@@ -43,6 +43,4 @@ class SolunarServiceTest extends SolunarServiceBaseTest
 
         $this->assertEquals($expected, $this->solunar_svc->format_inputs($inputs));
     }
-
-
 }

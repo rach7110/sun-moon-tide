@@ -68,7 +68,7 @@ class SolunarService implements ClimateServiceContract
             $inputs['formatted_date'],
             $inputs['formatted_timezone'],
             $inputs['formatted_location']
-        );
+    );
 
         return $dataset;
     }
