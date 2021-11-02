@@ -36,8 +36,8 @@ class SolunarServiceTest extends SolunarServiceBaseTest
         ];
 
         $expected = [
-            'formatted_date' => '20211031',
-            'formatted_timezone' => '9',
+            'formatted_date' => '20211102',
+            'formatted_timezone' => '-5',
             'formatted_location' => "30.24152,-97.76877"
         ];
 
