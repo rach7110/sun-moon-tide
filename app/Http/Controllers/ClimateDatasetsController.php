@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ClimateServiceContract;
-use App\Transformers\ClimateDatasetTransformer;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -52,12 +51,6 @@ class ClimateDatasetsController extends Controller
                 'moon_phase' => $climate_svc->moon_phase()
             ];
         }
-
-        // TODO: remove transformer. Since we are not accessing the data in multiple places in our application, all the transformation may happen in the controller.
-
-        $data = fractal()
-            ->collection($climate_dataset, new ClimateDatasetTransformer, 'climate_dataset')
-            ->toArray();
 
         return collect($climate_dataset);
     }
