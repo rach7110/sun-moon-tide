@@ -6,7 +6,7 @@ use App\Contracts\ClimateServiceContract;
 use App\ThirdPartyApi\Solunar;
 
 /** Converts data from the Solunar API into a useable format. */
-class SolunarService implements ClimateServiceContract
+class SolunarService extends ClimateServiceContract
 {
     use FormatsInput, ValidatesInput;
 
@@ -67,8 +67,7 @@ class SolunarService implements ClimateServiceContract
         $dataset = $this->provider->fetch(
             $inputs['formatted_date'],
             $inputs['formatted_timezone'],
-            $inputs['formatted_location']
-    );
+            $inputs['formatted_location']);
 
         return $dataset;
     }

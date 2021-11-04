@@ -15,8 +15,6 @@ class ClimateDatasetsController extends Controller
         // TODO: create view for form inputs.
     }
 
-    //TODO: why not move provider to a class dependency on the service class? Change service class so it inherits an abstract class instead of an interface.
-    // https://www.w3schools.com/php/php_oop_interfaces.asp
     public function fetch(Request $request, ClimateServiceContract $climate_svc)
     {
         $validated = $request->validate([
