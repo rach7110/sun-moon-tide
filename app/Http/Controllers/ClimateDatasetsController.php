@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\ClimateServiceContract;
-use App\Service\Solunar\SolunarService;
 use App\Transformers\ClimateDatasetTransformer;
 use Exception;
 use Illuminate\Http\Request;
