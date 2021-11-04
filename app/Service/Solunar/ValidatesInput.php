@@ -19,10 +19,9 @@ trait ValidatesInput
 
     /**
      * Throw an exception if date is invalid. Must be in month-day-year format.
-     * And must be valid numbers.
-     * For example, 05-75-2002 is not a valid date.
-     * Otherwise,
      *
+     * @pre Date must be in mm-dd-yyyy format.
+     * @pre Date must be a valid number (ie: less than 32)
      * @param string $date
      * @return void
      *

@@ -69,4 +69,10 @@ class SolunarServiceTest extends SolunarServiceBaseTest
         $this->assertEquals($moon_phase, strtolower($this->api_response->moonPhase));
     }
 
+    // TODO
+    // public function test_service_gets_tides()
+    // {
+
+    // }
+
 }
