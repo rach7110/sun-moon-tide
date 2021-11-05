@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClimateDatasetsController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +14,5 @@ use App\Http\Controllers\ClimateDatasetsController;
 |
 */
 
-Route::get('/climate/create', [ClimateDatasetsController::class, 'create']);
+
 Route::post('/climate', [ClimateDatasetsController::class, 'fetch']);

@@ -8,12 +8,6 @@ use Illuminate\Http\Request;
 
 class ClimateDatasetsController extends Controller
 {
-
-    public function create()
-    {
-        // TODO: create view for form inputs.
-    }
-
     public function fetch(Request $request, ClimateServiceContract $climate_svc)
     {
         $validated = $request->validate([
