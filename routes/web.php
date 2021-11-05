@@ -17,10 +17,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/sponsor', function() {
-    return view('sponsor');
-})->name('sponsor');
-
 Route::get('/climate/create', function() {
     return view('climatedata');
 })->name('climatedata');
