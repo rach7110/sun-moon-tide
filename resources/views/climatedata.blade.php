@@ -20,26 +20,51 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+        </script>
     </head>
     <body class="body">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
             <div>
                 <form class="form">
+                    @csrf
                     <div class="form_element">
-                        <label for="zipcode">Zip</label>
-                        <input type="text" placeholder="78704" name="zipcode"/>
+                        <label for="zip">Zip</label>
+                        <input type="text" placeholder="78704" name="zip"/>
                     </div>
                     <div class="form_element">
-                        <label for="zipcode">Timezone</label>
+                        <label for="timezone">Timezone</label>
                         <input type="text" placeholder="-5" name="timezone"/>
                     </div>
                     <div class="form_element">
-                        <label for="zipcode">Date</label>
+                        <label for="date">Date</label>
                         <input type="text" name="date"/>
                     </div>
-                    <input type="submit"/>
+                    <input id="submit" type="submit"/>
                 </form>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    $("#submit").click(function(e){
+
+  e.preventDefault();
+
+  var zip = $("input[name=zip]").val();
+  var timezone = $("input[name=timezone]").val();
+  var date = $("input[name=date]").val();
+
+
+  $.ajax({
+    type:'POST',
+    url:"{{ route('climate') }}",
+    data:{zip:zip, timezone:timezone, date:date, "_token":"{{ csrf_token() }}"},
+    success:function(data){
+        console.log(data);
+    }
+  });
+
+});
+</script>

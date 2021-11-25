@@ -15,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/climate', [ClimateDatasetsController::class, 'fetch']);
+Route::post('/climate', [ClimateDatasetsController::class, 'fetch'])->name('climate');
