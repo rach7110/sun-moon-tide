@@ -20,7 +20,3 @@ Route::get('/', function () {
 Route::get('/climate/create', function() {
     return view('climatedata');
 })->name('climatedata');
-
-Route::post('/climate/create', function() {
-    return "Hello World";
-});
