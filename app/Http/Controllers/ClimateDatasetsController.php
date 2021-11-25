@@ -11,7 +11,7 @@ class ClimateDatasetsController extends Controller
     public function fetch(Request $request, ClimateServiceContract $climate_svc)
     {
         $validated = $request->validate([
-            'date' => 'required|date_format:d-m-Y',
+            'date' => 'required|date_format:m-d-Y',
             'zip' =>'required'
         ]);
 
