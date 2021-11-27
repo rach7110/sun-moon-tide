@@ -30,15 +30,15 @@
                     @csrf
                     <div class="form_element">
                         <label for="zip">Zip</label>
-                        <input type="text" placeholder="78704" name="zip"/>
+                        <input type="text" placeholder="78704" name="zip" required="required"/>
                     </div>
                     <div class="form_element">
                         <label for="timezone">Timezone</label>
-                        <input type="text" placeholder="-5" name="timezone"/>
+                        <input type="text" placeholder="-5" name="timezone" required="required"/>
                     </div>
                     <div class="form_element">
                         <label for="date">Date</label>
-                        <input type="text" name="date"/>
+                        <input type="text" name="date" required="required"/>
                     </div>
                     <input id="submit" type="submit"/>
                 </form>
@@ -49,22 +49,21 @@
 
 <script>
     $("#submit").click(function(e){
+        e.preventDefault();
 
-  e.preventDefault();
+        var zip = $("input[name=zip]").val();
+        var timezone = $("input[name=timezone]").val();
+        var date = $("input[name=date]").val();
 
-  var zip = $("input[name=zip]").val();
-  var timezone = $("input[name=timezone]").val();
-  var date = $("input[name=date]").val();
-
-
-  $.ajax({
-    type:'POST',
-    url:"{{ route('climate') }}",
-    data:{zip:zip, timezone:timezone, date:date, "_token":"{{ csrf_token() }}"},
-    success:function(data){
-        console.log(data);
-    }
-  });
-
-});
+        if (zip && timezone && date) {
+            $.ajax({
+                type:'POST',
+                url:"{{ route('climate') }}",
+                data:{zip:zip, timezone:timezone, date:date, "_token":"{{ csrf_token() }}"},
+                success:function(data){
+                    console.log(data);
+                }
+            });
+        }
+    });
 </script>
