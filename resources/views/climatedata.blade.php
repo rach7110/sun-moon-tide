@@ -62,7 +62,10 @@
                 data:{zip:zip, timezone:timezone, date:date, "_token":"{{ csrf_token() }}"},
                 success:function(data){
                     console.log(data);
-                }
+                },
+                error:function(data){
+                    console.log("Error");
+                },
             });
         }
     });
