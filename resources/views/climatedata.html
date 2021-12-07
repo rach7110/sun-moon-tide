@@ -29,6 +29,15 @@
                     </div>
                     <input id="submit" type="submit"/>
                 </form>
+
+                <p>Names</p>
+                <ul>
+                    <li v-for="name in names">
+                        {{ name }}
+                        <button v-on:click="deleteName(name)">Delete</button>
+                    </li>
+                </ul>
+                <input type="text" v-model="newName" ><button @click="addName">Add Name</button>
             </div>
         </div>
     </body>
@@ -41,10 +50,31 @@
         data() {
             return {
                 zip: '',
+                names: [
+                    'rachel', 'amber', 'laura'
+                ],
+                newName: '',
             }
-        }
+        },
+        methods: {
+            addName() {
+                if(this.newName != '') {
+                    this.names.push(this.newName);
+                    this.newName ='';
+                }
+            },
+            deleteName(name) {
+                const index = this.names.indexOf(name);
+
+                if(index != -1) {
+                    this.names.splice(index, 1);
+                }
+            }
+        },
     }
 
+    const app = Vue.createApp(ClimateData);
+    const vm = app.mount('#root');
 
 </script>
 
