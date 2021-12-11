@@ -21,13 +21,13 @@
                     </div>
                     <div class="form_element">
                         <label for="timezone">Timezone</label>
-                        <input type="text" placeholder="-5" name="timezone" required="required"/>
+                        <input type="text" v-model=timezone placeholder="-5" name="timezone" required="required"/>
                     </div>
                     <div class="form_element">
                         <label for="date">Date</label>
-                        <input type="text" name="date" required="required"/>
+                        <input type="text" v-model=date name="date" required="required"/>
                     </div>
-                    <input id="submit" type="submit"/>
+                    <input :disabled="disableClimateSubmit" id="submit" type="submit"/>
                 </form>
 
                 <p>Names</p>
@@ -50,11 +50,18 @@
         data() {
             return {
                 zip: '',
+                date: '',
+                timezone: '',
                 names: [
                     'rachel', 'amber', 'laura'
                 ],
                 newName: '',
             }
+        },
+        computed: {
+            disableClimateSubmit() {
+                return this.zip === '' || this.date === '' || this.timezone === '';
+            },
         },
         methods: {
             addName() {
