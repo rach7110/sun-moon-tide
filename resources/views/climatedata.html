@@ -30,14 +30,23 @@
                     <input :disabled="disableClimateSubmit" id="submit" type="submit"/>
                 </form>
 
-                <p>Names</p>
+                <h2>All Todos</h2>
                 <ul>
-                    <li v-for="name in names">
-                        {{ name }}
-                        <button v-on:click="deleteName(name)">Delete</button>
+                    <li v-for="todo in todos">
+                        {{ todo.description }}
+                        <input type="checkbox" v-model="todo.completed">
                     </li>
                 </ul>
-                <input type="text" v-model="newName" ><button @click="addName">Add Name</button>
+
+                <h2>Incomplete Todos</h2>
+                <ul>
+                    <li v-for="todo in incompleteTodos">{{ todo.description }}</li>
+                </ul>
+
+                <h2>Complete Todos</h2>
+                <ul>
+                    <li v-for="todo in completeTodos">{{ todo.description }}</li>
+                </ul>
             </div>
         </div>
     </body>
@@ -52,31 +61,27 @@
                 zip: '',
                 date: '',
                 timezone: '',
-                names: [
-                    'rachel', 'amber', 'laura'
+
+                todos: [
+                    { description: "Go to zoo", completed: false },
+                    { description: "Grocery shop", completed: false },
+                    { description: "Clean house", completed: false },
+                    { description: "Walk dog", completed: false },
+                    { description: "Make dinner", completed: false },
+                    { description: "Wash clothes", completed: false },
                 ],
-                newName: '',
             }
         },
         computed: {
             disableClimateSubmit() {
                 return this.zip === '' || this.date === '' || this.timezone === '';
             },
-        },
-        methods: {
-            addName() {
-                if(this.newName != '') {
-                    this.names.push(this.newName);
-                    this.newName ='';
-                }
+            completeTodos() {
+                return this.todos.filter(todo => todo.completed);
             },
-            deleteName(name) {
-                const index = this.names.indexOf(name);
-
-                if(index != -1) {
-                    this.names.splice(index, 1);
-                }
-            }
+            incompleteTodos() {
+                return this.todos.filter(todo => !todo.completed);
+            },
         },
     }
 
