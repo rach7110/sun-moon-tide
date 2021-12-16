@@ -48,11 +48,28 @@
                     <li v-for="todo in completeTodos">{{ todo.description }}</li>
                 </ul>
             </div>
+
+            <h2>Favorite Cities</h2>
+                <div id="cities">
+                    <ul>
+                        <city-list
+                            v-for="place in cities"
+                            v-bind:city="place"
+                        >
+                        </city-list>
+
+                        <h2>Visited Cities</h2>
+                        <li v-for="visited in visitedCities">
+                            {{ visited.name }}
+                        </li>
+                    </ul>
+            </div>
         </div>
     </body>
 </html>
 
 <script src="https://unpkg.com/vue@next"></script>
+<script src="http://localhost/js/main.js"></script>
 
 <script>
     const ClimateData = {
