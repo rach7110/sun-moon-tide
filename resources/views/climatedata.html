@@ -5,27 +5,108 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Sun Moon</title>
-
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <body class="body">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            <div id="root">
-                <form class="form">
-                    <div class="form_element">
-                        <label for="zip">Zip</label>
-                        <input type="text" v-model=zip placeholder="78704" name="zip" required="required"/>
+        <!-- Bulma -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    </head>
+
+    <body>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+              <a class="navbar-item" href="https://bulma.io">
+                Sun Moon Tide
+              </a>
+
+              <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+
+            <div id="navbarBasicExample" class="navbar-menu">
+              <div class="navbar-start">
+                <a class="navbar-item">
+                  Home
+                </a>
+
+                <a class="navbar-item">
+                  Documentation
+                </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a class="navbar-link">
+                    More
+                  </a>
+
+                  <div class="navbar-dropdown">
+                    <a class="navbar-item">
+                      About
+                    </a>
+                    <a class="navbar-item">
+                      Contact
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item">
+                      Report an issue
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="navbar-end">
+                <div class="navbar-item">
+                  <div class="buttons">
+                    <a class="button is-primary">
+                      <strong>Sign up</strong>
+                    </a>
+                    <a class="button is-light">
+                      Log in
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+
+        <div class="container" id="root">
+            <section class="hero is-primary">
+                <div class="hero-body">
+                  <p class="title">
+                    Primary hero
+                  </p>
+                  <p class="subtitle">
+                    Primary subtitle
+                  </p>
+                </div>
+              </section>
+            <div>
+                <form>
+                    <div class="field">
+                        <label class="label" for="zip">Zip</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model=zip placeholder="78704" name="zip" required="required"/>
+                        </div>
                     </div>
-                    <div class="form_element">
-                        <label for="timezone">Timezone</label>
-                        <input type="text" v-model=timezone placeholder="-5" name="timezone" required="required"/>
+                    <div class="field">
+                        <label class="label" for="timezone">Timezone</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model=timezone placeholder="-5" name="timezone" required="required"/>
+                        </div>
                     </div>
-                    <div class="form_element">
-                        <label for="date">Date</label>
-                        <input type="text" v-model=date name="date" required="required"/>
+                    <div class="field">
+                        <label class="label" for="date">Date</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model=date name="date" required="required"/>
+                        </div>
                     </div>
-                    <input :disabled="disableClimateSubmit" id="submit" type="submit"/>
+                    <div class="field">
+                        <div class="control">
+                            <input class="button" :disabled="disableClimateSubmit" type="submit"/>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
