@@ -28,11 +28,4 @@ class NoaaService implements ClimateServiceContract
 
     public function moon_phase()
     {}
-
-    public function high_tides()
-    {}
-
-    public function low_tides()
-    {}
-
 }

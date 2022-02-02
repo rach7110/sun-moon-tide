@@ -2,7 +2,7 @@
 
 namespace App\Contracts;
 
-abstract class ClimateServiceContract
+abstract class TideServiceContract
 {
     private $provider;
     private $dataset;
@@ -10,9 +10,6 @@ abstract class ClimateServiceContract
     public function format_inputs($inputs){}
     public function fetch_data($inputs){}
     public function set_data($data){}
-    public function moon_rise(){}
-    public function moon_set(){}
-    public function sun_rise(){}
-    public function sun_set(){}
-    public function moon_phase(){}
+    public function high_tides(){}
+    public function low_tides(){}
 }
