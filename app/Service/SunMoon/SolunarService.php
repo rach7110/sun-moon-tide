@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\Solunar;
+namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
-use App\ThirdPartyApi\Solunar;
+use App\ThirdPartyApi\SunMoon;
 
 /** Converts data from the Solunar API into a useable format. */
 class SolunarService extends ClimateServiceContract

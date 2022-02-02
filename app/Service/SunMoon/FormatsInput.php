@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Solunar;
+namespace App\Service\SunMoon;
 
 /** Formats inputs for Solunar API. */
 trait FormatsInput
@@ -63,7 +63,7 @@ trait FormatsInput
     private function convertToLatLong($zip)
     {
         $lat_long = "";
-        $locations = file(\database_path() . DIRECTORY_SEPARATOR . 'zip_codes.php');
+        $locations = file(\database_path() . DIRECTORY_SEPARATOR . 'zip_codes.php'); // TODO
 
         // Get index of found zip.
         $index = $this->binary_search_zipcodes($locations, 0, count($locations), $zip);

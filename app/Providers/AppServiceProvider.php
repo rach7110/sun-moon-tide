@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\ClimateServiceContract;
-use App\Service\Solunar\SolunarService;
+use App\Service\SunMoon\SunMoonService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
