@@ -3,7 +3,7 @@
 namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
-use App\ThirdPartyApi\SunMoon;
+use App\ThirdPartyApi\Solunar;
 
 /** Converts data from the Solunar API into a useable format. */
 class SolunarService extends ClimateServiceContract
