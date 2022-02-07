@@ -2,31 +2,16 @@
 
 namespace App\ThirdPartyApi;
 
-use App\Contracts\ClimateProviderContract;
-
-class Noaa implements ClimateProviderContract
+/** Interacts with the NOAA external API. */
+class Noaa
 {
-    protected $date;
-    protected $location;
-
-    protected $url;
-
+    protected $base_url;
     protected $token;
 
     public function __construct()
     {
-        $this->url = config('climate.noaa.base_url');
+        $this->base_url = config('climate.noaa.base_url');
         $this->token = config('climate.noaa.token');
-    }
-
-    public function set_date($date)
-    {
-        // TODO
-    }
-
-    public function set_location($location)
-    {
-        // TODO
     }
 
     /**
@@ -40,7 +25,7 @@ class Noaa implements ClimateProviderContract
 
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, $this->url);
+        curl_setopt($curl, CURLOPT_URL, $this->base_url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
 
