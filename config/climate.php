@@ -6,7 +6,7 @@ return [
         'token' => env('NOAA_NCDC_TOKEN', null)
     ],
     'noaa_tides' => [
-        'base_url' => 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter'
+        'base_url' => 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=water_level&units=english&application=ports_screen&format=json&datum=MSL'
     ],
     'solunar' => [
         'base_url' => 'https://api.solunar.org/solunar',

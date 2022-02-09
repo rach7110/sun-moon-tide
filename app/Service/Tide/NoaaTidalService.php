@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Service\Tide;
+
 use App\Contracts\TideServiceContract;
 use App\ThirdPartyApi\NoaaTides;
 
@@ -20,7 +22,10 @@ class NoaaTidalService extends TideServiceContract
     public function format_inputs($inputs){}
 
     public function fetch_data($inputs) {
-        $this->provider->fetch($inputs);
+        $this->provider->fetch(
+            $inputs['date'],
+            $inputs['timezone'],
+            $inputs['station_id']);
     }
 
     public function set_data($data) {

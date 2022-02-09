@@ -1,6 +1,7 @@
 <?php
 
 namespace App\ThirdPartyApi;
+use Carbon\Carbon;
 
 /** Interacts with the NOAA external API. */
 class NoaaTides
@@ -17,13 +18,20 @@ class NoaaTides
      *
      * @return array $data
      */
-    public function fetch()
+    public function fetch($date, $timezone, $station_id)
     {
+        $tz = "lst";  // returns the data in the local timezone.
+        $begin_date = Carbon::createFromFormat("m-d-Y", $date, $timezone);
+        $end_date = $begin_date->add(1, 'day');
+        $station=$station_id;
+
+        $url = "{$this->base_url}&time_zone={$tz}&begin_date={$begin_date->format('Ymd')}&end_date={$end_date->format('Ymd')}&station={$station}";
+
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, $this->base_url);
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, false);
+        curl_setopt($curl, CURLOPT_HEADER, false);
 
         $data = curl_exec($curl);
 
