@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
 use App\ThirdPartyApi\Noaa;
