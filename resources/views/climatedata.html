@@ -83,13 +83,23 @@
                 </div>
               </section>
             <div>
-                <form>
+                <form action="/api/climate" method="POST">
                     <div class="field">
                         <label class="label" for="zip">Zip</label>
                         <div class="control">
                             <input class="input" type="text" v-model=zip placeholder="78704" name="zip" required="required"/>
                         </div>
                     </div>
+
+                    <div class="field">
+                        <label class="label" for="date">Station ID</label>
+                        <div class="control">
+                            <input class="input" type="text" v-model=stationId name="stationId" required="required"/>
+                        </div>
+                    </div>
+
+                    <a href="https://tidesandcurrents.noaa.gov/map/" target="blank">Station Lookup</a>
+
                     <div class="field">
                         <label class="label" for="timezone">Timezone</label>
                         <div class="control">
@@ -120,13 +130,14 @@
         data() {
             return {
                 zip: '',
+                stationId: '',
                 date: '',
                 timezone: '',
             }
         },
         computed: {
             disableClimateSubmit() {
-                return this.zip === '' || this.datwe === '' || this.timezone === '';
+                return this.zip === '' || this.date === '' || this.timezone === '';
             },
         },
     }
