@@ -13,8 +13,11 @@ class SolunarService extends ClimateServiceContract
     /** Provider class that connects to the Solunar API */
     private $provider;
 
-    /** Dataset from the Solunar API */
-    private $dataset;
+    private $sun_set;
+    private $sun_rise;
+    private $moon_set;
+    private $moon_rise;
+    private $moon_phase;
 
     /**
      * Constructor method.
@@ -73,50 +76,63 @@ class SolunarService extends ClimateServiceContract
     }
 
     /**
-     * Set the dataset from the Solunar API.
+     * Set the data from the Solunar API.
      *
-     * @param array $dataset
+     * @param Object $api_response
      * @return void
      */
-    public function set_data($dataset)
+    public function set_data($api_response)
     {
-        $this->dataset = $dataset;
-    }
-
-    public function moon_rise()
-    {
-        return $this->dataset->moonRise;
-    }
-
-    public function moon_set()
-    {
-        return $this->dataset->moonSet;
+        $this->sun_rise = $api_response->sunRise;
+        $this->sun_set = $api_response->sunSet;
+        $this->moon_rise = $api_response->moonRise;
+        $this->moon_set = $api_response->moonSet;
+        $this->moon_phase = $this->moon_phase($api_response->moonPhase);
 
     }
 
-    public function sun_rise()
+    /**
+     * Ensure the moon phase from the external api is
+     * valid by comparing to the enumerations in
+     * this class.
+     *
+     * @param string $api_value The moon phase from the api.
+     * @return string $moon_phase Either a valid moon
+     * phase or empty value.
+     */
+    protected function moon_phase($api_value)
     {
-        return $this->dataset->sunRise;
-    }
-
-    public function sun_set()
-    {
-        return $this->dataset->sunSet;
-    }
-
-    public function moon_phase()
-    {
-        $phase = strtolower($this->dataset->moonPhase);
+        $phase = strtolower($api_value);
 
         $moon_phase = in_array($phase, self::MOON_PHASES) ? $phase : '';
 
         return $moon_phase;
     }
 
-    public function high_tides()
-    {}
+    public function get_sun_rise()
+    {
+        return $this->sun_rise;
+    }
 
-    public function low_tides()
-    {}
+    public function get_sun_set()
+    {
+        return $this->sun_set;
+    }
 
+    public function get_moon_rise()
+    {
+        return $this->moon_rise;
+    }
+
+    public function get_moon_set()
+    {
+        return $this->moon_set;
+
+    }
+
+    public function get_moon_phase()
+    {
+        return $this->moon_phase;
+
+    }
 }
