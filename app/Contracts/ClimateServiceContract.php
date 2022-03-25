@@ -5,7 +5,6 @@ namespace App\Contracts;
 abstract class ClimateServiceContract
 {
     private $provider;
-    private $dataset;
 
     public function validates($inputs){}
     public function format_inputs($inputs){}
