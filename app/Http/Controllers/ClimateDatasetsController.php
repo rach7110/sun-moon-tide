@@ -34,7 +34,6 @@ class ClimateDatasetsController extends Controller
                 $climate_svc->validate($date, $tz, $zip);
                 // $tide_svc->validate(); // TODO
             } catch (Exception $e) {
-                dd('Error');
                 print_r($e->getMessage()); // TODO: handle
             }
 
