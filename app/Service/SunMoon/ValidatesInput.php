@@ -30,6 +30,7 @@ trait ValidatesInput
      */
     private function validate_date($date)
     {
+        // TODO remove date format validation - belongs in FormatInputs class or service class.
         // Check the date is in the correct format
         $format = 'm-d-Y';
         $date_object = DateTime::createFromFormat($format, $date);
