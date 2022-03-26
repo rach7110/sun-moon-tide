@@ -47,13 +47,13 @@ class SolunarService extends ClimateServiceContract
     public function format_inputs($inputs)
     {
         $date = $this->format_date($inputs['date']);
-        $timezone = $this->format_timezone($inputs['timezone']);
-        $location = $this->format_location($inputs['zipcode']);
+        $timezone = $this->format_timezone($inputs['tz']);
+        $location = $this->format_location($inputs['zip']);
 
         $formatted = [
-            'formatted_date' => $date,
-            'formatted_timezone' => $timezone,
-            'formatted_location' => $location
+            'date' => $date,
+            'timezone' => $timezone,
+            'location' => $location
         ];
 
         return $formatted;
@@ -67,10 +67,15 @@ class SolunarService extends ClimateServiceContract
      */
     public function fetch_data($inputs)
     {
+        $dataset = [];
+
+        $formatted = $this->format_inputs($inputs);
+
         $dataset = $this->provider->fetch(
-            $inputs['formatted_date'],
-            $inputs['formatted_timezone'],
-            $inputs['formatted_location']);
+            $formatted['date'],
+            $formatted['timezone'],
+            $formatted['location']
+        );
 
         return $dataset;
     }

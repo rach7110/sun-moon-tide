@@ -11,12 +11,13 @@ class ClimateDatasetsController extends Controller
 {
     public function fetch(Request $request, ClimateServiceContract $climate_svc, TideServiceContract $tide_svc)
     {
+        $climate_dataset = [];
+
+        // Frontend validation
         $validated = $request->validate([
             'date' => 'required|date_format:m-d-Y',
             'zip' =>'required'
         ]);
-
-        $climate_dataset = [];
 
         if (! $validated) {
                 $msg = "Inputs are invalid.";
@@ -28,6 +29,7 @@ class ClimateDatasetsController extends Controller
             $zip = $request->input('zip');
             $station_id = $request->input('stationId') ?? '';
 
+            // Additional validation rules.
             try {
                 $climate_svc->validate($date, $tz, $zip);
                 // $tide_svc->validate(); // TODO
@@ -36,25 +38,21 @@ class ClimateDatasetsController extends Controller
                 print_r($e->getMessage()); // TODO: handle
             }
 
-            $formatted_sun_moon_inputs = $climate_svc->format_inputs([
+            // Fetch data from external apis.
+            $climate_response = $climate_svc->fetch_data([
                 'date' => $date,
                 'timezone' => $tz,
                 'zipcode' => $zip
             ]);
 
-            // TODO: format_inputs method
-            // $formatted_tide_inputs = $tide_svc->format_inputs([
-            $formatted_tide_inputs = [
+            $tides_response = $tide_svc->fetch_data([
                 'date' => $date,
                 'timezone' => $tz,
                 'station_id' => $station_id
-            ];
+            ]);
 
-            // Fetch data from external apis and set responses.
-            $climate_response = $climate_svc->fetch_data($formatted_sun_moon_inputs);
             $climate_svc->set_data($climate_response);
 
-            $tides_response = $tide_svc->fetch_data($formatted_tide_inputs);
             $tide_svc->set_data($tides_response);
 
             $climate_dataset = [

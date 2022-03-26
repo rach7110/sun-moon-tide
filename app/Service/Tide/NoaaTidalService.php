@@ -18,16 +18,44 @@ class NoaaTidalService extends TideServiceContract
         $this->provider = new NoaaTides;
     }
 
-    public function validates($inputs){}
-    public function format_inputs($inputs){}
+    //TODO
+    public function validates($inputs)
+    {}
 
+    //TODO
+    public function format_inputs($inputs)
+    {
+        // $date = $this->format_date($inputs['date']);
+        // $timezone = $this->format_timezone($inputs['tz']);
+        // $location = $this->format_location($inputs['zip']);
+
+        // $formatted = [
+        //     'date' => $date,
+        //     'timezone' => $timezone,
+        //     'location' => $location
+        // ];
+
+        // return $formatted;
+    }
+
+    /**
+     * Fetch data from NoaaTides API.
+     *
+     * @param array $inputs
+     * @return array $dataset
+     */
     public function fetch_data($inputs) {
-        $dataset = $this->provider->fetch(
-            $inputs['date'],
-            $inputs['timezone'],
-            $inputs['station_id']);
+        $dataset = [];
 
-            return $dataset;
+        $formatted = $this->format_inputs($inputs);
+
+        $dataset = $this->provider->fetch(
+            $formatted['date'],
+            $formatted['timezone'],
+            $formatted['station_id']
+        );
+
+        return $dataset;
     }
 
     /**
