@@ -10,8 +10,8 @@ class NoaaTidalService extends TideServiceContract
     /** $provider NoaaTides Connects to the external API */
     private NoaaTides $provider;
 
-    /** Dataset provided by the external api */
-    private $dataset;
+    private $high_tides;
+    private $low_tides;
 
     public function __construct()
     {
@@ -88,10 +88,10 @@ class NoaaTidalService extends TideServiceContract
     {}
 
     public function get_high_tides() {
-        return $this->dataset->high_tides;
+        return $this->high_tides;
     }
 
     public function get_low_tides() {
-        return $this->dataset->low_tides;
+        return $this->low_tides;
     }
 }
