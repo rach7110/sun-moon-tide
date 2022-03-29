@@ -39,27 +39,6 @@ class SolunarService extends ClimateServiceContract
     ];
 
     /**
-     * Formats inputs for the Solunar API.
-     *
-     * @param array $inputs
-     * @return array $formatted
-     */
-    public function format_inputs($inputs)
-    {
-        $date = $this->format_date($inputs['date']);
-        $timezone = $this->format_timezone($inputs['tz']);
-        $location = $this->format_location($inputs['zip']);
-
-        $formatted = [
-            'date' => $date,
-            'timezone' => $timezone,
-            'location' => $location
-        ];
-
-        return $formatted;
-    }
-
-    /**
      * Fetch data from Solunar API.
      *
      * @param array $inputs
@@ -101,13 +80,13 @@ class SolunarService extends ClimateServiceContract
      * valid by comparing to the enumerations in
      * this class.
      *
-     * @param string $api_value The moon phase from the api.
+     * @param string $api_response The moon phase from the api.
      * @return string $moon_phase Either a valid moon
      * phase or empty value.
      */
-    protected function moon_phase($api_value)
+    private function moon_phase($api_response)
     {
-        $phase = strtolower($api_value);
+        $phase = strtolower($api_response);
 
         $moon_phase = in_array($phase, self::MOON_PHASES) ? $phase : '';
 

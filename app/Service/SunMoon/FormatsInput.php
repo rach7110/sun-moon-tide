@@ -8,6 +8,27 @@ trait FormatsInput
     use ExtractsDate;
 
     /**
+     * Formats inputs for the Solunar API.
+     *
+     * @param array $inputs
+     * @return array $formatted
+     */
+    public function format_inputs($inputs)
+    {
+        $date = $this->format_date($inputs['date']);
+        $timezone = $this->format_timezone($inputs['tz']);
+        $location = $this->format_location($inputs['zip']);
+
+        $formatted = [
+            'date' => $date,
+            'timezone' => $timezone,
+            'location' => $location
+        ];
+
+        return $formatted;
+    }
+
+    /**
      * Format values to yyyymmdd format for Solunar API.
      *
      * @param int|string $date

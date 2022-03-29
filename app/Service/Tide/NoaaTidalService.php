@@ -18,11 +18,7 @@ class NoaaTidalService extends TideServiceContract
         $this->provider = new NoaaTides;
     }
 
-    //TODO
-    public function validates($inputs)
-    {}
-
-    //TODO
+    //TODO - this will move to a trait.
     public function format_inputs($inputs)
     {
         // $date = $this->format_date($inputs['date']);
@@ -37,6 +33,10 @@ class NoaaTidalService extends TideServiceContract
 
         // return $formatted;
     }
+
+    //TODO - this will move to a trait.
+    public function validates($inputs)
+    {}
 
     /**
      * Fetch data from NoaaTides API.
@@ -67,8 +67,8 @@ class NoaaTidalService extends TideServiceContract
     public function set_data($api_response) {
         // TODO: decide if the decoding should happen on the setter or getter methods.
 
-        $this->dataset->high_tides = $this->set_high_tides($api_response);
-        $this->dataset->low_tides = $this->set_low_tides($api_response);
+        $this->dataset->high_tides = $this->extract_high_tides($api_response);
+        $this->dataset->low_tides = $this->extract_low_tides($api_response);
     }
 
     /**
@@ -76,7 +76,7 @@ class NoaaTidalService extends TideServiceContract
      *
      * @return void
      */
-    public function set_high_tides()
+    private function extract_high_tides()
     {}
 
     /**
@@ -84,7 +84,7 @@ class NoaaTidalService extends TideServiceContract
      *
      * @return void
      */
-    public function set_low_tides()
+    private function extract_low_tides()
     {}
 
     public function get_high_tides() {

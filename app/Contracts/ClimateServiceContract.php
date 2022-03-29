@@ -6,8 +6,6 @@ abstract class ClimateServiceContract
 {
     private $provider;
 
-    public function validates($inputs){}
-    public function format_inputs($inputs){}
     public function fetch_data($inputs){}
     public function set_data($data){}
     public function get_moon_rise(){}
