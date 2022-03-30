@@ -67,30 +67,13 @@ class SolunarService extends ClimateServiceContract
      */
     public function set_data($api_response)
     {
-        $this->sun_rise = $api_response->sunRise;
-        $this->sun_set = $api_response->sunSet;
-        $this->moon_rise = $api_response->moonRise;
-        $this->moon_set = $api_response->moonSet;
-        $this->moon_phase = $this->moon_phase($api_response->moonPhase);
+        $data = $this->parse($api_response);
 
-    }
-
-    /**
-     * Ensure the moon phase from the external api is
-     * valid by comparing to the enumerations in
-     * this class.
-     *
-     * @param string $api_response The moon phase from the api.
-     * @return string $moon_phase Either a valid moon
-     * phase or empty value.
-     */
-    private function moon_phase($api_response)
-    {
-        $phase = strtolower($api_response);
-
-        $moon_phase = in_array($phase, self::MOON_PHASES) ? $phase : '';
-
-        return $moon_phase;
+        $this->sun_rise = $data['sun_rise'];
+        $this->sun_set = $data['sun_set'];
+        $this->moon_rise = $data['moon_rise'];
+        $this->moon_set = $data['moon_set'];
+        $this->moon_phase = $data['moon_phase'];
     }
 
     public function get_sun_rise()
@@ -118,5 +101,40 @@ class SolunarService extends ClimateServiceContract
     {
         return $this->moon_phase;
 
+    }
+
+    /**
+     * Parse the values from the external api.
+     *
+     * @param Object $response
+     * @return void
+     */
+    private function parse($response)
+    {
+        $data = [
+            'sun_rise' => $response->sunRise,
+            'sun_set' => $response->sunSet,
+            'moon_rise' => $response->moonRise,
+            'moon_set' => $response->moonSet,
+            'moon_phase' => $this->moon_phase($response->moonPhase)
+        ];
+
+        return $data;
+    }
+
+    /**
+     * Returns a valid moon phase.
+     *
+     * @param string $value The moon phase from the external api.
+     * @return string $moon_phase Either a valid moon
+     * phase or empty value.
+     */
+    private function moon_phase($value)
+    {
+        $phase = strtolower($value);
+
+        $moon_phase = in_array($phase, self::MOON_PHASES) ? $phase : '';
+
+        return $moon_phase;
     }
 }
