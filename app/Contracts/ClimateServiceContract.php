@@ -5,6 +5,11 @@ namespace App\Contracts;
 abstract class ClimateServiceContract
 {
     private $provider;
+    private $sun_set;
+    private $sun_rise;
+    private $moon_set;
+    private $moon_rise;
+    private $moon_phase;
 
     public function fetch_data($inputs){}
     public function set_data($data){}
