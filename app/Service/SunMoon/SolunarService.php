@@ -4,9 +4,9 @@ namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
 use App\ThirdPartyApi\Solunar;
+use App\Traits\FormatsInput;
+use App\Traits\ValidatesInput;
 use Exception;
-use Traits\FormatsInput;
-use Traits\ValidatesInput;
 
 /** Converts data from the Solunar API into a useable format. */
 class SolunarService extends ClimateServiceContract

@@ -1,7 +1,8 @@
 <?php
 
-namespace Traits;
+namespace App\Traits;
 
+use App\Traits\ExtractsDate;
 use DateTime;
 use Exception;
 
