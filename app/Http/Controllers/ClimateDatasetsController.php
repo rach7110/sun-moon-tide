@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ClimateServiceContract;
 use App\Contracts\TideServiceContract;
-use Exception;
 use Illuminate\Http\Request;
 
 class ClimateDatasetsController extends Controller
@@ -22,20 +21,12 @@ class ClimateDatasetsController extends Controller
         if (! $validated) {
                 $msg = "Inputs are invalid.";
 
-                dd($msg);
+                dd($msg); //TODO handle
         } else {
             $date = $request->input('date');
             $tz = $request->input('timezone', '11');
             $zip = $request->input('zip');
             $station_id = $request->input('stationId') ?? '';
-
-            // Additional validation rules.
-            try {
-                $climate_svc->validate($date, $tz, $zip);
-                // $tide_svc->validate(); // TODO
-            } catch (Exception $e) {
-                print_r($e->getMessage()); // TODO: handle
-            }
 
             // Fetch data from external apis.
             $climate_response = $climate_svc->fetch_data([

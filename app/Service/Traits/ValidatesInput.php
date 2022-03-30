@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\SunMoon;
+namespace Traits;
 
 use DateTime;
 use Exception;
@@ -10,11 +10,11 @@ trait ValidatesInput
 {
     use ExtractsDate;
 
-    public function validate($date, $tz, $location)
+    public function validate($inputs)
     {
-        $this->validate_date($date);
-        $this->validate_timezone($tz);
-        $this->validate_zip($location);
+        $this->validate_date($inputs['date']);
+        $this->validate_timezone($inputs['tz']);
+        $this->validate_zip($inputs['location']);
     }
 
     /**
@@ -30,7 +30,7 @@ trait ValidatesInput
      */
     private function validate_date($date)
     {
-        // TODO remove date format validation - belongs in FormatInputs class or service class.
+        // TODO this method handles too much. Improvement: remove date format validation and put in FormatInputs class or service class.
         // Check the date is in the correct format
         $format = 'm-d-Y';
         $date_object = DateTime::createFromFormat($format, $date);

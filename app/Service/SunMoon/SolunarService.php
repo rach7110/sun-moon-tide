@@ -4,6 +4,9 @@ namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
 use App\ThirdPartyApi\Solunar;
+use Exception;
+use Traits\FormatsInput;
+use Traits\ValidatesInput;
 
 /** Converts data from the Solunar API into a useable format. */
 class SolunarService extends ClimateServiceContract
@@ -47,6 +50,13 @@ class SolunarService extends ClimateServiceContract
     public function fetch_data($inputs)
     {
         $dataset = [];
+
+        // Validation rules.
+        try {
+            $this->validate($inputs);
+        } catch (Exception $e) {
+            print_r($e->getMessage()); // TODO: handle
+        }
 
         $formatted = $this->format_inputs($inputs);
 
@@ -107,7 +117,7 @@ class SolunarService extends ClimateServiceContract
      * Parse the values from the external api.
      *
      * @param Object $response
-     * @return void
+     * @return Array $data
      */
     private function parse($response)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\SunMoon;
+namespace Traits;
 
 trait ExtractsDate
 {

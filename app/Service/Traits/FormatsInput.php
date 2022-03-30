@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\SunMoon;
+namespace Traits;
 
 /** Formats inputs for Solunar API. */
 trait FormatsInput
