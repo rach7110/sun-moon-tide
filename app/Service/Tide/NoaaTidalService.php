@@ -5,7 +5,7 @@ namespace App\Service\Tide;
 use App\Contracts\TideServiceContract;
 use App\ThirdPartyApi\NoaaTides;
 
-class NoaaTidalService extends TideServiceContract
+class NoaaTideService extends TideServiceContract
 {
     /** $provider NoaaTides Connects to the external API */
     private NoaaTides $provider;
