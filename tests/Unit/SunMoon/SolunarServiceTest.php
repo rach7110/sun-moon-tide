@@ -15,12 +15,11 @@ class SolunarServiceTest extends SolunarServiceBaseCase
     public function test_throws_exception_for_bad_date_format()
     {
         $incorrect_format = "31-10-2021";
-        $inputs = $this->inputs;
 
         $this->expectExceptionMessage('Date is not formatted correctly. Must be formatted as m-d-Y');
 
-        $inputs['date'] = $incorrect_format;
-        $this->solunar_svc->validate($inputs);
+        $this->inputs['date'] = $incorrect_format;
+        $this->solunar_svc->validate($this->inputs);
     }
 
     /**
@@ -29,12 +28,11 @@ class SolunarServiceTest extends SolunarServiceBaseCase
     public function test_throws_exception_for_invalid_date()
     {
         $invalid_date = "10-99-2021";
-        $inputs = $this->inputs;
 
         $this->expectExceptionMessage('Date is not formatted correctly. Must be formatted as m-d-Y');
 
-        $inputs['date'] = $invalid_date;
-        $this->solunar_svc->validate($inputs);
+        $this->inputs['date'] = $invalid_date;
+        $this->solunar_svc->validate($this->inputs);
     }
 
     /**
@@ -43,29 +41,22 @@ class SolunarServiceTest extends SolunarServiceBaseCase
     public function test_throws_exception_for_invalid_timezone()
     {
         $invalid_tz = "99";
-        $inputs = $this->inputs;
 
-        $inputs['tz'] = $invalid_tz;
+        $this->inputs['tz'] = $invalid_tz;
 
         $this->expectExceptionMessage('Timezone is not valid.');
-        $this->solunar_svc->validate($inputs);
+        $this->solunar_svc->validate($this->inputs);
     }
 
     public function test_formats_inputs_for_solunar_api()
     {
-        $inputs = [
-            'date' => $this->inputs['date'],
-            'tz' => $this->inputs['tz'],
-            'zip' => $this->inputs['location']
-        ];
-
         $expected = [
             'date' => '20211102',
             'timezone' => '-5',
             'location' => "30.24152,-97.76877"
         ];
 
-        $this->assertEquals($expected, $this->solunar_svc->format_inputs($inputs));
+        $this->assertEquals($expected, $this->solunar_svc->format_inputs($this->inputs));
     }
 
     public function test_gets_moon_rise_and_set()
@@ -92,11 +83,4 @@ class SolunarServiceTest extends SolunarServiceBaseCase
 
         $this->assertEquals($moon_phase, strtolower($this->api_response->moonPhase));
     }
-
-    // TODO
-    // public function test_service_gets_tides()
-    // {
-
-    // }
-
 }
