@@ -2,13 +2,23 @@
 
 namespace Tests\Unit\SunMoon;
 
-use Tests\Unit\SunMoon\SolunarServiceBaseCase;
+use App\Service\SunMoon\SolunarService;
+use Tests\Unit\SunMoon\SunMoonServiceBaseCase;
 
 /**
  * Tests exceptions are thrown for wrong inputs, tests formats inputs correctly, tests returned object is formatted correctly.
  */
-class SolunarServiceTest extends SolunarServiceBaseCase
+class SolunarServiceTest extends SunMoonServiceBaseCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->solunar_svc = new SolunarService;
+        $this->solunar_svc->set_data($this->api_response);
+
+    }
+
     /**
      * @group Exceptions
      */
