@@ -4,9 +4,9 @@ namespace App\Service\Tide;
 
 use App\Contracts\TideServiceContract;
 use App\ThirdPartyApi\NoaaTides;
+use App\Traits\FormatsInput;
+use App\Traits\ValidatesInput;
 use Exception;
-use Traits\FormatsInput;
-use Traits\ValidatesInput;
 
 class NoaaTideService extends TideServiceContract
 {
