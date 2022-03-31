@@ -2,46 +2,67 @@
 
 namespace Test\Unit;
 
-use Tests\Unit\SolunarServiceBaseTest;
+use Tests\Unit\SolunarServiceBaseCase;
 
 /**
  * Tests exceptions are thrown for wrong inputs, tests formats inputs correctly, tests returned object is formatted correctly.
  */
-class SolunarServiceTest extends SolunarServiceBaseTest
+class SolunarServiceTest extends SolunarServiceBaseCase
 {
-    public function test_throws_exception_for_bad_dates()
+    /**
+     * @group Exceptions
+     */
+    public function test_throws_exception_for_bad_date_format()
     {
-        $incorrect_date_format = "31-10-2021";
-        $invalid_date = "10-99-2021";
-        $this->expectException(\Exception::class);
+        $incorrect_format = "31-10-2021";
+        $inputs = $this->inputs;
 
-        // Should throw exception if date is not formatted correctly.
-        $this->solunar_svc->validate($incorrect_date_format, $this->inputs['timezone'], $this->inputs['zipcode']);
+        $this->expectExceptionMessage('Date is not formatted correctly. Must be formatted as m-d-Y');
 
-        // Should throw exception if date is not valid.
-        $this->solunar_svc->validate($invalid_date, $this->inputs['timezone'], $this->inputs['zipcode']);
+        $inputs['date'] = $incorrect_format;
+        $this->solunar_svc->validate($inputs);
     }
 
+    /**
+     * @group Exceptions
+     */
+    public function test_throws_exception_for_invalid_date()
+    {
+        $invalid_date = "10-99-2021";
+        $inputs = $this->inputs;
+
+        $this->expectExceptionMessage('Date is not formatted correctly. Must be formatted as m-d-Y');
+
+        $inputs['date'] = $invalid_date;
+        $this->solunar_svc->validate($inputs);
+    }
+
+    /**
+     * @group Exceptions
+     */
     public function test_throws_exception_for_invalid_timezone()
     {
         $invalid_tz = "99";
+        $inputs = $this->inputs;
 
-        $this->expectException(\Exception::class);
-        $this->solunar_svc->validate($this->inputs['date'], $invalid_tz, $this->inputs['zipcode']);
+        $inputs['tz'] = $invalid_tz;
+
+        $this->expectExceptionMessage('Timezone is not valid.');
+        $this->solunar_svc->validate($inputs);
     }
 
     public function test_formats_inputs_for_solunar_api()
     {
         $inputs = [
             'date' => $this->inputs['date'],
-            'timezone' => $this->inputs['timezone'],
-            'zipcode' => $this->inputs['zipcode']
+            'tz' => $this->inputs['tz'],
+            'zip' => $this->inputs['location']
         ];
 
         $expected = [
-            'formatted_date' => '20211102',
-            'formatted_timezone' => '-5',
-            'formatted_location' => "30.24152,-97.76877"
+            'date' => '20211102',
+            'timezone' => '-5',
+            'location' => "30.24152,-97.76877"
         ];
 
         $this->assertEquals($expected, $this->solunar_svc->format_inputs($inputs));
