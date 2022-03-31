@@ -1,8 +1,8 @@
 <?php
 
-namespace Test\Unit;
+namespace Tests\Unit\SunMoon;
 
-use Tests\Unit\SolunarServiceBaseCase;
+use Tests\Unit\SunMoon\SolunarServiceBaseCase;
 
 /**
  * Tests exceptions are thrown for wrong inputs, tests formats inputs correctly, tests returned object is formatted correctly.
