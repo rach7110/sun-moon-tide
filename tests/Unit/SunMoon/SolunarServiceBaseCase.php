@@ -3,7 +3,7 @@ namespace Tests\Unit\SunMoon;
 
 use Tests\TestCase;
 
-class SunMoonServiceBaseCase extends TestCase
+class SolunarServiceBaseCase extends TestCase
 {
     protected function setUp(): void
     {
