@@ -41,9 +41,8 @@ class ClimateDatasetsController extends Controller
                 'station_id' => $station_id
             ]);
 
-            $climate_svc->set_data($climate_response);
-
-            $tide_svc->set_data($tides_response);
+            $climate_svc->parse($climate_response);
+            $tide_svc->parse($tides_response);
 
             $climate_dataset = [
                 'moon_rise' => $climate_svc->get_moon_rise(),

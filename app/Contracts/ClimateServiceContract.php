@@ -12,7 +12,7 @@ abstract class ClimateServiceContract
     private $moon_phase;
 
     public function fetch_data($inputs){}
-    public function set_data($data){}
+    public function parse($api_response){}
     public function get_moon_rise(){}
     public function get_moon_set(){}
     public function get_sun_rise(){}

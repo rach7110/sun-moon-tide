@@ -9,7 +9,7 @@ abstract class TideServiceContract
     private $low_tides;
 
     public function fetch_data($inputs){}
-    public function set_data($data){}
+    public function parse($api_response){}
     public function get_high_tides(){}
     public function get_low_tides(){}
 }

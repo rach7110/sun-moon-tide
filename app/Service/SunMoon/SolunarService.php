@@ -70,20 +70,18 @@ class SolunarService extends ClimateServiceContract
     }
 
     /**
-     * Set the data from the Solunar API.
+     * Parse the values from the external api.
      *
-     * @param Object $api_response
+     * @param Object $response
      * @return void
      */
-    public function set_data($api_response)
+    public function parse($response)
     {
-        $data = $this->parse($api_response);
-
-        $this->sun_rise = $data['sun_rise'];
-        $this->sun_set = $data['sun_set'];
-        $this->moon_rise = $data['moon_rise'];
-        $this->moon_set = $data['moon_set'];
-        $this->moon_phase = $data['moon_phase'];
+        $this->sun_rise = $response->sunRise;
+        $this->sun_set = $response->sunSet;
+        $this->moon_rise = $response->moonRise;
+        $this->moon_set = $response->moonSet;
+        $this->moon_phase = $this->moon_phase($response->moonPhase);
     }
 
     public function get_sun_rise()
@@ -111,25 +109,6 @@ class SolunarService extends ClimateServiceContract
     {
         return $this->moon_phase;
 
-    }
-
-    /**
-     * Parse the values from the external api.
-     *
-     * @param Object $response
-     * @return Array $data
-     */
-    private function parse($response)
-    {
-        $data = [
-            'sun_rise' => $response->sunRise,
-            'sun_set' => $response->sunSet,
-            'moon_rise' => $response->moonRise,
-            'moon_set' => $response->moonSet,
-            'moon_phase' => $this->moon_phase($response->moonPhase)
-        ];
-
-        return $data;
     }
 
     /**

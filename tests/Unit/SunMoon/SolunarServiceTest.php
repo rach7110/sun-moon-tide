@@ -15,7 +15,7 @@ class SolunarServiceTest extends SolunarServiceBaseCase
         parent::setUp();
 
         $this->solunar_svc = new SolunarService;
-        $this->solunar_svc->set_data($this->api_response);
+        $this->solunar_svc->parse($this->api_response);
 
     }
 

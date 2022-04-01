@@ -51,33 +51,15 @@ class NoaaTideService extends TideServiceContract
     }
 
     /**
-     * Sets the data from the external api response.
-     *
-     * @param string $api_response
-     * @return void
-     */
-    public function set_data($api_response) {
-        // TODO: decide if the decoding should happen on the setter or getter methods.
-        $data = $this->parse($api_response);
-
-        $this->high_tides = $data['high_tides'];
-        $this->low_tides = $data['low_tides'];
-    }
-
-    /**
      * Parse the values from the external api.
      *
-     * @param Object $response
-     * @return Array $data
+     * @param Object $api_response
+     * @return void
      */
-    private function parse($response)
-    {
-        $data = [
-            'sun_rise' => $this->extract_high_tides(),
-            'sun_set' => $this->extract_low_tides(),
-        ];
-
-        return $data;
+    //TODO does it accept an Object or string?
+    public function parse($api_response) {
+        $this->high_tides = $this->extract_high_tides($api_response);
+        $this->low_tides =  $this->extract_low_tides($api_response);
     }
 
     /**
