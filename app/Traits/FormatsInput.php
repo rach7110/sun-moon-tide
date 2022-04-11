@@ -18,7 +18,7 @@ trait FormatsInput
     public function format_inputs($inputs)
     {
         $date = $this->format_date($inputs['date']);
-        $timezone = $this->format_timezone($inputs['tz']);
+        $timezone = $this->format_timezone($inputs['timezone']);
         $location = $this->format_location($inputs['zip']);
 
         $formatted = [
