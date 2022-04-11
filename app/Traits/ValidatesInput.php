@@ -14,8 +14,8 @@ trait ValidatesInput
     public function validate($inputs)
     {
         $this->validate_date($inputs['date']);
-        $this->validate_timezone($inputs['tz']);
-        $this->validate_zip($inputs['location']);
+        $this->validate_timezone($inputs['timezone']);
+        $this->validate_zip($inputs['zip']);
     }
 
     /**
