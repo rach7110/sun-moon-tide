@@ -80,12 +80,11 @@ class NoaaTideService extends TideServiceContract
     private function extract_diurnal_tide_times($padded_data, $type)
     {
         $tide_times = [];
-        $padded_data1 = collect($padded_data);
-        $padded_data2 = collect($padded_data);
+        $padded_data = collect($padded_data);
 
         // Divide the day in half.
-        $padded_data1 = $padded_data1->splice(0,122);
-        $padded_data2 = $padded_data2->splice(120);
+        $padded_data1 = $padded_data->slice(0,122)->values();
+        $padded_data2 = $padded_data->slice(120)->values();
 
         // First half of day - get extreme tidal value.
         $tide_time1 = $this->tide_time($padded_data1, $type);
@@ -111,31 +110,27 @@ class NoaaTideService extends TideServiceContract
         $size = $padded_data->count();
 
         // Skip first and last points in the dataset.
-        $data = clone $padded_data;
-        $short_data = $data->slice(1, $size-2)->values(); // Need to re-index the values after slice method.
+        $data = $padded_data->slice(1, $size-2)->values(); // Need to re-index the values after slice method.
         if ($type == 'high') {
-            $tide_value = $short_data->max('v');
+            $tide_value = $data->max('v');
         } elseif ($type == 'low') {
-            $tide_value = $short_data->min('v');
+            $tide_value = $data->min('v');
         }
 
         $index = $padded_data->search(function ($item, $key) use ($tide_value) {
             return $item->v == $tide_value;
         });
 
-        $before_padded_data = clone $padded_data;
-        $after_padded_data = clone $padded_data;
-
-        $value_before = $before_padded_data->splice($index-1, 1)->first()->v;
-        $value_after = $after_padded_data->splice($index+1, 1)->first()->v;
+        $value_before = $padded_data->slice($index-1, 1)->values()->first()->v;
+        $value_after = $padded_data->slice($index+1, 1)->values()->first()->v;
 
         // Check for peak tide - uses recursive method (called only twice).
         if ( $this->is_apex($tide_value, $value_before, $value_after)) {
-            $tide_dataset = $data->where('v', $tide_value);
+            $tide_dataset = $padded_data->where('v', $tide_value);
             $tide_time = Carbon::createFromFormat('Y-m-d H:i', collect($tide_dataset->first())->get('t'))->toTimeString('minute');
         // Check second point for inflection point.
         } elseif ($size > 120 ) {
-            $tide_time = $this->tide_time($short_data, $type);
+            $tide_time = $this->tide_time($data, $type);
         }
 
         return $tide_time;
