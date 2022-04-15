@@ -28,7 +28,7 @@ class NoaaTideService extends TideServiceContract
      * Fetch data from NoaaTides API.
      *
      * @param array $inputs
-     * @return array $dataset
+     * @return Object $dataset
      */
     public function fetch_data($inputs) {
         $dataset = [];
@@ -56,60 +56,104 @@ class NoaaTideService extends TideServiceContract
 
     /**
      * Parse the values from the external api.
+     * and set them as a class properties.
      *
      * @param Object $response
      * @return void
      */
     public function parse($response) {
-        $this->high_tides = $this->extract_high_tides($response);
-        $this->low_tides =  $this->extract_low_tides($response);
+        $this->high_tides = $this->extract_daily_tide_times($response->data, 'high');
+        $this->low_tides =  $this->extract_daily_tide_times($response->data, 'low');
     }
 
     /**
-     * Filters out the high tide data from the api response
-     * and sets it as a class property.
+     * Gets the time of day for high or low tides from the api response.
+     * Data was padded by adding 6 minutes to the start and end of the date.
      *
-     * @param Object $response
-     * @return array $high_tides
+     * @param Object $padded_data Data from the api response.
+     * @param string $type High or Low tides.
+     *
+     * @return Array $tide_times
      */
-    private function extract_high_tides($response)
+    private function extract_daily_tide_times($padded_data, $type)
     {
-        $high_tides = [];
-        $data = collect($response->data);
+        $tide_times = [];
+        $padded_data1 = collect($padded_data);  // TODO need to create copies?
+        $padded_data2 = collect($padded_data);
 
-        // Get half of the day's values. (There are 240 x 6 minute segments in a day.
-        $chunks = $data->chunk(120);
-        $data1 = $chunks[0];
-        $data2 = $chunks[1];
+        // Divide the day in half.
+        $padded_data1 = $padded_data1->splice(0,122);
+        $padded_data2 = $padded_data2->splice(120);
 
-        // Get the max tides from each half of the day
-        // BUG this won't work for days when there is only 1 high tide.
-        // Better implementation is to find the maxes in each half. Then ensure the values just before and after are less than the max. If not, disregard the max as it is not an apex.
-        $max1 = $data1->max('v');
-        $max2 = $data2->max('v');
-        $max_dataset1 = $data1->where('v', $max1);
-        $max_dataset2 = $data2->where('v', $max2);
-        $first_high_tide = (collect($max_dataset1->first())->get('t'));
-        $second_high_tide = (collect($max_dataset2->first())->get('t'));
+        // First half of day - get extreme tidal value.
+        $tide_time1 = $this->tide_time($padded_data1, $type);
+        $tide_time2 = $this->tide_time($padded_data2, $type);
 
-        // Get time of high tides in the format 'hh:mm'
-        $first_high_tide = Carbon::createFromFormat('Y-m-d H:i', $first_high_tide)->toTimeString('minute');
-        $second_high_tide = Carbon::createFromFormat('Y-m-d H:i', $second_high_tide)->toTimeString('minute');
+        array_push($tide_times, $tide_time1, $tide_time2);
 
-        array_push($high_tides, $first_high_tide, $second_high_tide);
-
-        return $high_tides;
+        return $tide_times;
     }
 
     /**
-     * Filters out the low tide data from the api response
-     * and sets it as a class property.
+     * Undocumented function
      *
+     * @param Collection $padded_data
+     * @param string $type
      * @return void
      */
-    private function extract_low_tides()
+    private function tide_time($padded_data, $type)
     {
-        // TODO
+        print_r("\n");
+
+        $tide_time = null;
+        $size = $padded_data->count();
+
+        // Skip first and last points in the dataset.
+        $data = clone $padded_data;  // TODO need to create copy?
+        $short_data = $data->slice(1, $size-2);
+
+        if ($type == 'high') {
+            $tide_value = $short_data->max('v');
+        } elseif ($type == 'low') {
+            $tide_value = $short_data->min('v');
+        }
+
+        $index = $padded_data->search(function ($item, $key) use ($tide_value) {
+            return $item->v == $tide_value;
+        });
+
+        \var_dump("Tide Value: {$tide_value}");
+        \var_dump("Index: {$index}\n");
+
+        $before_padded_data = clone $padded_data;
+        $after_padded_data = clone $padded_data;
+
+        $value_before = $before_padded_data->splice($index - 1, 1)->first()->v;
+        $value_after = $after_padded_data->splice($index + 1, 1)->first()->v;
+
+        // Check for peak tide - uses recursive method (called only twice).
+        if ( $this->is_apex($tide_value, $value_before, $value_after)) {
+            $tide_dataset = $data->where('v', $tide_value);
+            $tide_time = Carbon::createFromFormat('Y-m-d H:i', collect($tide_dataset->first())->get('t'))->toTimeString('minute');
+        // Check second point for inflection point.
+        } elseif ($size > 120 ) {
+            $tide_time = $this->tide_time($short_data, $type);
+        }
+
+        return $tide_time;
+    }
+
+    private function is_apex($tide_value, $before, $after)
+    {
+        \var_dump("Before: {$before}");
+        \var_dump("Tide: {$tide_value}");
+        \var_dump("After: {$after}");
+        $is_max = $tide_value > $before && $tide_value > $after;
+        $is_min = $tide_value < $before && $tide_value < $after;
+        \var_dump("Is max: {$is_max}");
+        \var_dump("Is min: {$is_min}");
+
+        return $is_max || $is_min;
     }
 
     public function get_high_tides() {
