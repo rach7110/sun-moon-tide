@@ -5,9 +5,6 @@ namespace Tests\Unit\SunMoon;
 use App\Service\SunMoon\SolunarService;
 use Tests\Unit\SunMoon\SolunarServiceBaseCase;
 
-/**
- * Tests exceptions are thrown for wrong inputs, tests formats inputs correctly, tests returned object is formatted correctly.
- */
 class SolunarServiceTest extends SolunarServiceBaseCase
 {
     protected function setUp(): void
