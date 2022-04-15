@@ -22,7 +22,7 @@ class Solunar
     public function fetch($date, $timezone, $location)
     {
         //TODO: create default timezone.
-        $url =  "{$this->base_url}/{$location},{$date},{$timezone}";  // TODO: use constant for directory sep.
+        $url =  "{$this->base_url}" . DIRECTORY_SEPARATOR . "{$location},{$date},{$timezone}";
 
         $curl = curl_init();
 
