@@ -58,27 +58,29 @@ class NoaaTideService extends TideServiceContract
      * Parse the values from the external api.
      * and set them as a class properties.
      *
-     * @param Object $response
+     * @param object $response
      * @return void
      */
     public function parse($response) {
-        $this->high_tides = $this->extract_daily_tide_times($response->data, 'high');
-        $this->low_tides =  $this->extract_daily_tide_times($response->data, 'low');
+        $this->high_tides = $this->extract_diurnal_tide_times($response->data, 'high');
+        $this->low_tides =  $this->extract_diurnal_tide_times($response->data, 'low');
     }
 
     /**
-     * Gets the time of day for high or low tides from the api response.
+     * Gets the times of day for high or low tides from the api response.
+     * Tide can have one or two peaks in a 24 hours cycle.
      * Data was padded by adding 6 minutes to the start and end of the date.
      *
-     * @param Object $padded_data Data from the api response.
+     * @param object $padded_data Data from the api response.
      * @param string $type High or Low tides.
      *
-     * @return Array $tide_times
+     * @return array $tide_times Contains two times or
+     * one time and null for the second tide.
      */
-    private function extract_daily_tide_times($padded_data, $type)
+    private function extract_diurnal_tide_times($padded_data, $type)
     {
         $tide_times = [];
-        $padded_data1 = collect($padded_data);  // TODO need to create copies?
+        $padded_data1 = collect($padded_data);
         $padded_data2 = collect($padded_data);
 
         // Divide the day in half.
@@ -95,11 +97,13 @@ class NoaaTideService extends TideServiceContract
     }
 
     /**
-     * Undocumented function
+     * Gets the time of day for high or low tides from the api response.
      *
-     * @param Collection $padded_data
-     * @param string $type
-     * @return void
+     * @param Illuminate\Support\Collection $padded_data From the external API.
+     * @param string $type Type of tide (high or low)
+     * @param integer $shift Helps get correct indices when called recursively.
+     *
+     * @return string $tide_time
      */
     private function tide_time($padded_data, $type, $shift = 0)
     {
@@ -107,7 +111,7 @@ class NoaaTideService extends TideServiceContract
         $size = $padded_data->count();
 
         // Skip first and last points in the dataset.
-        $data = clone $padded_data;  // TODO need to create copy?
+        $data = clone $padded_data;
         $short_data = $data->slice(1, $size-2);
 
         if ($type == 'high') {
@@ -139,6 +143,15 @@ class NoaaTideService extends TideServiceContract
         return $tide_time;
     }
 
+    /**
+     * Determines if a value is a peak.
+     *
+     * @param string $tide_value
+     * @param string $before
+     * @param string $after
+     *
+     * @return boolean
+     */
     private function is_apex($tide_value, $before, $after)
     {
         $is_max = $tide_value > $before && $tide_value > $after;
