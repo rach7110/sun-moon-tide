@@ -103,8 +103,6 @@ class NoaaTideService extends TideServiceContract
      */
     private function tide_time($padded_data, $type, $shift = 0)
     {
-        print_r("\n");
-
         $tide_time = null;
         $size = $padded_data->count();
 
@@ -121,9 +119,6 @@ class NoaaTideService extends TideServiceContract
         $index = $padded_data->search(function ($item, $key) use ($tide_value) {
             return $item->v == $tide_value;
         });
-
-        \var_dump("Tide Value: {$tide_value}");
-        \var_dump("Index: {$index}\n");
 
         $before_padded_data = clone $padded_data;
         $after_padded_data = clone $padded_data;
@@ -146,13 +141,8 @@ class NoaaTideService extends TideServiceContract
 
     private function is_apex($tide_value, $before, $after)
     {
-        \var_dump("Before: {$before}");
-        \var_dump("Tide: {$tide_value}");
-        \var_dump("After: {$after}");
         $is_max = $tide_value > $before && $tide_value > $after;
         $is_min = $tide_value < $before && $tide_value < $after;
-        \var_dump("Is max: {$is_max}");
-        \var_dump("Is min: {$is_min}");
 
         return $is_max || $is_min;
     }
