@@ -101,7 +101,7 @@ class NoaaTideService extends TideServiceContract
      * @param string $type
      * @return void
      */
-    private function tide_time($padded_data, $type)
+    private function tide_time($padded_data, $type, $shift = 0)
     {
         print_r("\n");
 
@@ -128,8 +128,8 @@ class NoaaTideService extends TideServiceContract
         $before_padded_data = clone $padded_data;
         $after_padded_data = clone $padded_data;
 
-        $value_before = $before_padded_data->splice($index - 1, 1)->first()->v;
-        $value_after = $after_padded_data->splice($index + 1, 1)->first()->v;
+        $value_before = $before_padded_data->splice($index+($shift-1), 1)->first()->v;
+        $value_after = $after_padded_data->splice($index+($shift+1), 1)->first()->v;
 
         // Check for peak tide - uses recursive method (called only twice).
         if ( $this->is_apex($tide_value, $value_before, $value_after)) {
@@ -137,7 +137,8 @@ class NoaaTideService extends TideServiceContract
             $tide_time = Carbon::createFromFormat('Y-m-d H:i', collect($tide_dataset->first())->get('t'))->toTimeString('minute');
         // Check second point for inflection point.
         } elseif ($size > 120 ) {
-            $tide_time = $this->tide_time($short_data, $type);
+            $shift--;
+            $tide_time = $this->tide_time($short_data, $type, $shift);
         }
 
         return $tide_time;
