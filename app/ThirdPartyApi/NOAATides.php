@@ -28,6 +28,8 @@ class NoaaTides
 
         $url = "{$this->base_url}&time_zone={$tz}&begin_date={$begin_date->format('Ymd H:i')}&end_date={$end_date->format('Ymd H:i')}&station={$station}";
 
+        // BUG: returns a 502 Bad Gateway error. Could be a laravel app key issue.
+
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_URL, $url);
