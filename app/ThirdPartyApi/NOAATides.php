@@ -16,7 +16,7 @@ class NoaaTides
     /**
      * Send a curl request to the external api.
      *
-     * @return array $data
+     * @return Object $data
      */
     public function fetch($date, $timezone, $station_id)
     {
