@@ -1,7 +1,9 @@
 <?php
 
 namespace App\ThirdPartyApi;
+
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 
 /** Interacts with the NOAA external API. */
 class NoaaTides
@@ -26,19 +28,14 @@ class NoaaTides
         $end_date = $carbon_date->copy()->endOfDay()->addMinutes(7);
         $station=$station_id;
 
-        $url = "{$this->base_url}&time_zone={$tz}&begin_date={$begin_date->format('Ymd H:i')}&end_date={$end_date->format('Ymd H:i')}&station={$station}";
+        $client = new Client([
+            'base_uri' => $this->base_url,
+            'timeout'  => 2.0,
+        ]);
 
-        // BUG: returns a 502 Bad Gateway error. Could be a laravel app key issue.
+        $response = $client->request('GET', "?time_zone={$tz}&begin_date={$begin_date->format('Ymd H:i')}&end_date={$end_date->format('Ymd H:i')}&station={$station}&product=water_level&units=english&time_zone=gmt&application=ports_screen&format=json&datum=MSL");
 
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-
-        $data = curl_exec($curl);
-
-        curl_close($curl);
+        $data = json_decode($response->getBody()->getContents());
 
         return $data;
     }
