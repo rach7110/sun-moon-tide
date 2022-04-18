@@ -3,6 +3,8 @@
 namespace Tests\Unit\SunMoon;
 
 use App\Service\SunMoon\SolunarService;
+use Carbon\Carbon;
+use DateTime;
 use Tests\Unit\SunMoon\SolunarServiceBaseCase;
 
 class SolunarServiceTest extends SolunarServiceBaseCase
@@ -19,7 +21,7 @@ class SolunarServiceTest extends SolunarServiceBaseCase
     /**
      * @group Exceptions
      */
-    public function test_throws_exception_for_bad_date_format()
+    public function test_throws_exception_for_invalid_date_format()
     {
         $incorrect_format = "31-10-2021";
 
@@ -45,11 +47,24 @@ class SolunarServiceTest extends SolunarServiceBaseCase
     /**
      * @group Exceptions
      */
+    public function test_throws_exception_for_invalid_date_range()
+    {
+        $invalid_date = Carbon::now()->addYears(2)->format('m-d-Y');
+
+        $this->expectExceptionMessage('Date cannot be more than a year from now.');
+
+        $this->inputs['date'] = $invalid_date;
+        $this->solunar_svc->validate($this->inputs);
+    }
+
+    /**
+     * @group Exceptions
+     */
     public function test_throws_exception_for_invalid_timezone()
     {
         $invalid_tz = "99";
 
-        $this->inputs['tz'] = $invalid_tz;
+        $this->inputs['timezone'] = $invalid_tz;
 
         $this->expectExceptionMessage('Timezone is not valid.');
         $this->solunar_svc->validate($this->inputs);

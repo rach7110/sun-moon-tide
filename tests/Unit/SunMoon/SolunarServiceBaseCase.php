@@ -11,7 +11,7 @@ class SolunarServiceBaseCase extends TestCase
 
         $this->inputs = [
             'date' => "11-02-2021",
-            'tz' => -5,
+            'timezone' => -5,
             'zip' => 78704
         ];
 

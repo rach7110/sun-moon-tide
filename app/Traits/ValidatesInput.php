@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Traits\ExtractsDate;
-use DateTime;
+use Carbon\Carbon;
 use Exception;
 
 /** Validates inputs for Solunar API. */
@@ -19,37 +19,28 @@ trait ValidatesInput
     }
 
     /**
-     * Throw an exception if date is invalid. Must be in month-day-year format.
+     * Throw an exception if date is invalid.
+     * Day and Month must be valid numbers (day: 01-31, month: 01-12)
+     * Year can be no more than one year out.
      *
-     * @pre Date must be in mm-dd-yyyy format.
-     * @pre Date must be a valid number (ie: less than 32)
      * @param string $date
      * @return void
      *
-     * @throws Exception if date is not formatted correctly.
      * @throws Exception if date is not valid.
      */
     private function validate_date($date)
     {
-        // TODO this method handles too much. Improvement: remove date format validation and put in FormatInputs class or service class.
-        // Check the date is in the correct format
         $format = 'm-d-Y';
-        $date_object = DateTime::createFromFormat($format, $date);
+        $date_object = Carbon::createFromFormat($format, $date);
 
+        // Ensures format matches and values are valid. IE: 11-99-2021 will be 01-07-2022 to Carbon.
         if (! $date_object || $date_object->format($format) != $date) {
             throw new Exception('Date is not formatted correctly. Must be formatted as m-d-Y');
         }
 
-        // Get month, day, and year.
-        $m = $this->month($date);
-        $d = $this->day($date);
-        $y = $this->year($date);
-
-        // Check date contains valid numbers.
-        $valid_date = checkdate($m, $d, $y);
-
-        if (! $valid_date) {
-            throw new Exception('Date is not valid');
+        // Checks the date is not more than one year out.
+        if ($date_object->greaterThan(Carbon::now()->addYear())) {
+            throw new Exception('Date cannot be more than a year from now.');
         }
 
         return true;
