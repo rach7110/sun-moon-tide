@@ -2,15 +2,12 @@
 
 namespace App\Traits;
 
-use App\Traits\ExtractsDate;
 use Carbon\Carbon;
 use Exception;
 
 /** Validates inputs for Solunar API. */
 trait ValidatesInput
 {
-    use ExtractsDate;
-
     public function validate($inputs)
     {
         $this->validate_date($inputs['date']);

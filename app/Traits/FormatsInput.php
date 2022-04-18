@@ -2,13 +2,12 @@
 
 namespace App\Traits;
 
-use App\Traits\ExtractsDate;
+use DateTime;
+use Exception;
 
 /** Formats inputs for Solunar API. */
 trait FormatsInput
 {
-    use ExtractsDate;
-
     /**
      * Formats inputs for the Solunar API.
      *
@@ -35,18 +34,20 @@ trait FormatsInput
      *
      * @param int|string $date
      * @return $string $formatted_date
+     *
+     * @throws Exception if date is not supplied as mm-dd-YYYY.
      */
     public function format_date($date)
     {
-        $month = intval($this->month($date));
-        $day = intval($this->day($date));
-        $year = intval($this->year($date));
+        // Check the date is supplied in the correct format.
+        $format = 'm-d-Y';
+        $date_object = DateTime::createFromFormat($format, $date);
 
-        // Month and day need proceeding zeros.
-        $m = $month < 10 ? "0{$month}" : $month;
-        $d = $day < 10 ? "0{$day}" : $day;
+        if (! $date_object || $date_object->format($format) != $date) {
+            throw new Exception('Date is not formatted correctly. Must be formatted as m-d-Y');
+        }
 
-        $formatted_date = $year . $m . $d;
+        $formatted_date = $date_object->format('Ymd');
 
         return $formatted_date;
     }
