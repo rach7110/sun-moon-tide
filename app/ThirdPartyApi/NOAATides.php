@@ -33,7 +33,7 @@ class NoaaTides
             'timeout'  => 2.0,
         ]);
 
-        $response = $client->request('GET', "?time_zone={$tz}&begin_date={$begin_date->format('Ymd H:i')}&end_date={$end_date->format('Ymd H:i')}&station={$station}");
+        $response = $client->request('GET', "?product=water_level&units=english&application=rachelL&format=json&datum=MSL&time_zone={$tz}&begin_date={$begin_date->format('Ymd H:i')}&end_date={$end_date->format('Ymd H:i')}&station={$station}");
 
         $data = json_decode($response->getBody()->getContents());
 
