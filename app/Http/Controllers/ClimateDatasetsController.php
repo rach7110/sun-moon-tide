@@ -35,13 +35,14 @@ class ClimateDatasetsController extends Controller
                 'zip' => $zip
             ]);
 
+            $climate_svc->parse($climate_response);
+
             $tides_response = $tide_svc->fetch_data([
                 'date' => $date,
                 'timezone' => $tz,
                 'station_id' => $station_id
             ]);
 
-            $climate_svc->parse($climate_response);
             $tide_svc->parse($tides_response);
 
             $climate_dataset = [

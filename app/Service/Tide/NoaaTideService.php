@@ -45,6 +45,7 @@ class NoaaTideService extends TideServiceContract
         // $formatted = $this->format_inputs($inputs);
         $formatted = $inputs;
 
+        // TODO try catch
         $dataset = $this->provider->fetch(
             $formatted['date'],
             $formatted['timezone'],
