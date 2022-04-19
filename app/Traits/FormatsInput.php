@@ -40,7 +40,7 @@ trait FormatsInput
     public function format_date($date)
     {
         // Check the date is supplied in the correct format.
-        $format = 'm-d-Y';
+        $format = 'm-j-Y';
         $date_object = DateTime::createFromFormat($format, $date);
 
         if (! $date_object || $date_object->format($format) != $date) {

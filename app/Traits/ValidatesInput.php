@@ -27,7 +27,7 @@ trait ValidatesInput
      */
     private function validate_date($date)
     {
-        $format = 'm-d-Y';
+        $format = 'm-j-Y';
         $date_object = Carbon::createFromFormat($format, $date);
 
         // Ensures format matches and values are valid. IE: 11-99-2021 will be 01-07-2022 to Carbon.

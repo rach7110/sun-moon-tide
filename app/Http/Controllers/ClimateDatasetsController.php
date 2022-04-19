@@ -14,7 +14,7 @@ class ClimateDatasetsController extends Controller
 
         // Frontend validation
         $validated = $request->validate([
-            'date' => 'required|date_format:m-d-Y',
+            'date' => 'required|date_format:m-j-Y',
             'zip' =>'required'
         ]);
 
