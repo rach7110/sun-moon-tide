@@ -16,17 +16,6 @@ class SolunarServiceTest extends SolunarServiceBaseCase
 
     }
 
-    public function test_formats_inputs_for_solunar_api()
-    {
-        $expected = [
-            'date' => '20211102',
-            'timezone' => '-5',
-            'location' => "30.24152,-97.76877"
-        ];
-
-        $this->assertEquals($expected, $this->solunar_svc->format_inputs($this->inputs));
-    }
-
     public function test_gets_moon_rise_and_set()
     {
         $moon_rise = $this->solunar_svc->get_moon_rise();
