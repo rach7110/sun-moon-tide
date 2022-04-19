@@ -32,20 +32,14 @@ trait FormatsInput
     /**
      * Format values to yyyymmdd format for Solunar API.
      *
+     * @pre Format of $date is m-j-Y
      * @param int|string $date
      * @return $string $formatted_date
-     *
-     * @throws Exception if date is not supplied as mm-dd-YYYY.
      */
     public function format_date($date)
     {
-        // Check the date is supplied in the correct format.
         $format = 'm-j-Y';
         $date_object = DateTime::createFromFormat($format, $date);
-
-        if (! $date_object || $date_object->format($format) != $date) {
-            throw new Exception('Date is not formatted correctly. Must be formatted as m-d-Y');
-        }
 
         $formatted_date = $date_object->format('Ymd');
 

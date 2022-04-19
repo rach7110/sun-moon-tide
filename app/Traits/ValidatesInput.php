@@ -17,9 +17,9 @@ trait ValidatesInput
 
     /**
      * Throw an exception if date is invalid.
-     * Day and Month must be valid numbers (day: 01-31, month: 01-12)
      * Year can be no more than one year out.
      *
+     * @pre Format of $date is m-j-Y
      * @param string $date
      * @return void
      *
@@ -29,11 +29,6 @@ trait ValidatesInput
     {
         $format = 'm-j-Y';
         $date_object = Carbon::createFromFormat($format, $date);
-
-        // Ensures format matches and values are valid. IE: 11-99-2021 will be 01-07-2022 to Carbon.
-        if (! $date_object || $date_object->format($format) != $date) {
-            throw new Exception('Date is not formatted correctly. Must be formatted as m-d-Y');
-        }
 
         // Checks the date is not more than one year out.
         if ($date_object->greaterThan(Carbon::now()->addYear())) {
@@ -72,6 +67,20 @@ trait ValidatesInput
      * @throws Exception if zip is invalid.
      */
     private function validate_zip($zip)
+    {
+        // TODO
+    }
+
+
+    /**
+     * Throw an exception if weather buoy station ID is invalid.
+     *
+     * @param string|int $id
+     * @return void
+
+     * @throws Exception if zip is invalid.
+     */
+    private function validate_station($id)
     {
         // TODO
     }
