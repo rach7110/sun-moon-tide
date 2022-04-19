@@ -51,13 +51,6 @@ class SolunarService extends ClimateServiceContract
     {
         $dataset = [];
 
-        // Validation rules.
-        try {
-            $this->validate($inputs);
-        } catch (Exception $e) {
-            print_r($e->getMessage()); // TODO: handle
-        }
-
         $formatted = $this->format_inputs($inputs);
 
         // TODO try catch

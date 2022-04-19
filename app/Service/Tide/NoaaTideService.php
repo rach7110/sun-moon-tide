@@ -33,14 +33,6 @@ class NoaaTideService extends TideServiceContract
     public function fetch_data($inputs) {
         $dataset = [];
 
-        // Validation rules.
-        //TODO
-        // try {
-        //     $this->validate($inputs);
-        // } catch (Exception $e) {
-        //     print_r($e->getMessage()); // TODO: handle
-        // }
-
         // TODO
         // $formatted = $this->format_inputs($inputs);
         $formatted = $inputs;

@@ -8,11 +8,12 @@ use Exception;
 /** Validates inputs for Solunar API. */
 trait ValidatesInput
 {
-    public function validate($inputs)
+    public function check($inputs)
     {
         $this->validate_date($inputs['date']);
         $this->validate_timezone($inputs['timezone']);
         $this->validate_zip($inputs['zip']);
+        $this->validate_station($inputs['station_id']);
     }
 
     /**
