@@ -32,13 +32,13 @@ trait FormatsInput
     /**
      * Format values to yyyymmdd format for Solunar API.
      *
-     * @pre Format of $date is m-j-Y
+     * @pre Format of $date is n-j-Y
      * @param int|string $date
      * @return $string $formatted_date
      */
     public function format_date($date)
     {
-        $format = 'm-j-Y';
+        $format = 'n-j-Y';
         $date_object = DateTime::createFromFormat($format, $date);
 
         $formatted_date = $date_object->format('Ymd');

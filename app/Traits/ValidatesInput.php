@@ -19,7 +19,7 @@ trait ValidatesInput
      * Throw an exception if date is invalid.
      * Year can be no more than one year out.
      *
-     * @pre Format of $date is m-j-Y
+     * @pre Format of $date is n-j-Y
      * @param string $date
      * @return void
      *
@@ -27,7 +27,7 @@ trait ValidatesInput
      */
     private function validate_date($date)
     {
-        $format = 'm-j-Y';
+        $format = 'n-j-Y';
         $date_object = Carbon::createFromFormat($format, $date);
 
         // Checks the date is not more than one year out.
