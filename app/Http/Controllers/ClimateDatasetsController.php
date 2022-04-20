@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\ClimateServiceContract;
 use App\Contracts\TideServiceContract;
 use App\Traits\ValidatesInput;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,12 @@ class ClimateDatasetsController extends Controller
         $climate_dataset = [];
 
         // Validation: built-in Laravel validation will redirect automatically with errors.
-        $request->validate([
-            'date' => 'required|date_format:n-j-Y',
-            'zip' =>'required'
+        $validated = $request->validate([
+            'date' => 'required|before:now+1year',
+            'zip' =>'required|postal_code:US',
+            'timezone' =>'integer|between:-11,14',
         ]);
+
 
         $inputs = [
             'date' => $request->input('date'),
