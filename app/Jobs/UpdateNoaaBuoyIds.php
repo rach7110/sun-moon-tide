@@ -2,40 +2,29 @@
 
 namespace App\Jobs;
 
+use App\ThirdPartyApi\NoaaBuoyStations;
 use Exception;
-use GuzzleHttp\Client;
 
-//TODO: Rename class?
-class NoaaBuoyStations
+class UpdateNoaaBuoyIds
 {
+    private $provider;
     private $buoy_ids = [];
     private $file = "noaa_buoy_stations.txt";
+
+    public function __construct()
+    {
+        $this->provider = new NoaaBuoyStations;
+    }
 
     public function update_stations()
     {
         // Fetch data from external api.
-        $response = $this->fetch();
+        $response = $this->provider->fetch();
 
         // parse the ids out of result.
         $ids = $this->parse($response->stations, 'id');
 
         $this->store_to_file($ids);
-    }
-
-    // Fetch data from external api.
-    private function fetch()
-    {
-        $url = config('climate.noaa_tide_stations.base_url');
-
-        $client = new Client([
-            'base_uri' => $url,
-            'timeout' => 2.0
-        ]);
-
-        $response = $client->request('GET');
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
     }
 
     /**
