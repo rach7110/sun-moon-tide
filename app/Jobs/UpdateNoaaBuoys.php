@@ -4,19 +4,33 @@ namespace App\Jobs;
 
 use App\ThirdPartyApi\NoaaBuoyStations;
 use Exception;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class UpdateNoaaBuoyIds
+class UpdateNoaaBuoys implements ShouldQueue
 {
-    private $provider;
-    private $buoy_ids = [];
-    private $file = "noaa_buoy_stations.txt";
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->provider = new NoaaBuoyStations;
     }
 
-    public function update_stations()
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
     {
         // Fetch data from external api.
         $response = $this->provider->fetch();
@@ -27,7 +41,7 @@ class UpdateNoaaBuoyIds
         $this->store_to_file($ids);
     }
 
-    /**
+   /**
      * Parse values out of the data.
      *
      * @param array $data
@@ -57,5 +71,4 @@ class UpdateNoaaBuoyIds
 
         fclose($file_pointer);
     }
-
 }
