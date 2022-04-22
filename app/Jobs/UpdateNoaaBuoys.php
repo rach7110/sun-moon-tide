@@ -15,6 +15,8 @@ class UpdateNoaaBuoys implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $file = "noaa_buoy_stations.txt";
+
     /**
      * Create a new job instance.
      *
