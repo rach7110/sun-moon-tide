@@ -5,13 +5,11 @@ namespace App\Service\Tide;
 use App\Contracts\TideServiceContract;
 use App\ThirdPartyApi\NoaaTides;
 use App\Traits\FormatsInput;
-use App\Traits\ValidatesInput;
 use Carbon\Carbon;
-use Exception;
 
 class NoaaTideService extends TideServiceContract
 {
-    use FormatsInput, ValidatesInput;
+    use FormatsInput;
 
     /** $provider NoaaTides Connects to the external API */
     private NoaaTides $provider;
