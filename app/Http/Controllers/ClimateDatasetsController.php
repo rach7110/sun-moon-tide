@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ClimateServiceContract;
 use App\Contracts\TideServiceContract;
-use App\Traits\ValidatesInput;
-use DateTime;
+use App\Rules\BuoyStationExists;
 use Exception;
 use Illuminate\Http\Request;
 
 class ClimateDatasetsController extends Controller
 {
-    use ValidatesInput;
 
     public function fetch(Request $request, ClimateServiceContract $climate_svc, TideServiceContract $tide_svc)
     {
@@ -24,6 +22,9 @@ class ClimateDatasetsController extends Controller
             'timezone' =>'integer|between:-11,14',
         ]);
 
+        $request->validate([
+            'stationId' => ['string', new BuoyStationExists],
+        ]);
 
         $inputs = [
             'date' => $request->input('date'),
@@ -32,13 +33,6 @@ class ClimateDatasetsController extends Controller
             'station_id' => $request->input('stationId') ?? ''
         ];
 
-        // Custom validation for zip codes, timezones, station, and date range.
-        try {
-            $this->check($inputs);
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
-            return redirect()->route('climatedata')->withInput()->withErrors($e->getMessage());
-        }
 
         // Fetch data from external apis.
         $climate_response = $climate_svc->fetch_data($inputs);
