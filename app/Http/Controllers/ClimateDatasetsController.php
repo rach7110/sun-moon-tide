@@ -20,9 +20,6 @@ class ClimateDatasetsController extends Controller
             'date' => 'required|before:now+1year',
             'zip' =>'required|postal_code:US',
             'timezone' =>'integer|between:-11,14',
-        ]);
-
-        $request->validate([
             'stationId' => ['string', new BuoyStationExists],
         ]);
 
