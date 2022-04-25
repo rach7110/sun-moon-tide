@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\ThirdPartyApi\NoaaBuoyStations;
-use Exception;
+use App\Traits\NoaaBuoyStationStore;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,9 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class UpdateNoaaBuoys implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    protected $file = "noaa_buoy_stations.txt";
+    use Dispatchable, InteractsWithQueue, NoaaBuoyStationStore, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
@@ -57,20 +55,5 @@ class UpdateNoaaBuoys implements ShouldQueue
         $ids = $data->pluck($type)->implode(',');
 
         return $ids;
-    }
-
-    public function store_to_file($ids)
-    {
-        $filepath = database_path("{$this->file}");
-
-        if (! $file_pointer = fopen($filepath, 'w')) {
-            throw new Exception('Problem updating buoy stations - cannot open storage file.');
-        }
-
-        if (fwrite($file_pointer, $ids) === false) {
-            throw new Exception('Problem updating buoy stations - cannot store to file.');
-        }
-
-        fclose($file_pointer);
     }
 }
