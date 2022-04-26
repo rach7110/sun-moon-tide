@@ -15,6 +15,9 @@ class UpdateNoaaBuoys implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, NoaaBuoyStationStore, Queueable, SerializesModels;
 
+    /** The number of times the job may be attempted */
+    public $tries = 5;
+
     /**
      * Create a new job instance.
      *
