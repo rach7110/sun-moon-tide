@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new UpdateNoaaBuoys)
-            ->dailyAt('9:00') // GMT or 2am Chicago timezone.
+            ->dailyAt('9:00'); // GMT or 2am Chicago timezone.
     }
 
     /**
