@@ -22,7 +22,7 @@ class UpdateNoaaBuoys implements ShouldQueue
      */
     public function __construct()
     {
-        $this->provider = new NoaaBuoyStations;
+
     }
 
     /**
@@ -30,10 +30,10 @@ class UpdateNoaaBuoys implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(NoaaBuoyStations $provider)
     {
         // Fetch data from external api.
-        $response = $this->provider->fetch();
+        $response = $provider->fetch();
 
         // parse the ids out of result.
         $ids = $this->parse($response->stations, 'id');
