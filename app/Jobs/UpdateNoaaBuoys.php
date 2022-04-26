@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class UpdateNoaaBuoys implements ShouldQueue
 {
@@ -42,6 +43,10 @@ class UpdateNoaaBuoys implements ShouldQueue
         $ids = $this->parse($response->stations, 'id');
 
         $this->store_to_file($ids);
+
+        Log::info("NoaaBuoyStations Job was executed at " . now());
+
+        //TODO migrate database - include failed jobs table
     }
 
    /**
