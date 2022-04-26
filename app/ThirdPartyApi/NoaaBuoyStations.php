@@ -9,7 +9,7 @@ class NoaaBuoyStations
     // Fetch data from external api.
     public function fetch()
     {
-        $url = config('climate.noaa_tide_stations.base_url');
+        $url = config('climate.noaa_buoy_stations.base_url');
 
         $client = new Client([
             'base_uri' => $url,

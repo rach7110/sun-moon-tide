@@ -8,7 +8,7 @@ return [
     'noaa_tides' => [
         'base_url' => 'https://api.tidesandcurrents.noaa.gov/api/prod/datagetter'
     ],
-    'noaa_tide_stations' => [
+    'noaa_buoy_stations' => [
         'base_url' => 'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations.json'
     ],
     'solunar' => [
