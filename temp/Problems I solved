@@ -1,0 +1,41 @@
+Problems I solved:
+
+****************************
+Problem:
+****************************
+app/Service/Tide/NoaaTideService.php tide_time($padded_data, $type)
+
+A recursive function, that is finds the time of a high or low tide, was not behaving as expected. It works by comparing three values in a dataset - a peak (min or max) and the two values just before and after it. The index of the peak needs to stored so we can access the other two values and compare them. However, the index was not correct on subsequent calls to the recursive method.
+
+Details:
+The method works by first shortening the dataset by one value on the front and back ends. This is done so we can check for an edge case - when the first or last value is a min or max, but it is not actually an inflection point. Then it searches for the index of the min or max and finds the values just before and after it to perform the check.
+
+If the value is not a peak (ie:the dataset limits were set in a way that makes it look like a min max), then the method calls itself one more time to find the peak or valley. The problem was that the recursive method was returning incorrect indices for the next trio of values. In my tests, I was checking the edge case at the beginning of the dataset, so it always seemed like the indices were off by one.
+
+Kept asking myself why it would use the correct values the first time the but not the second.
+
+Meanwhile, I wrote a hack (which in hindsight, would not work for edge cases that are at the end of the dataset). I noticed in my test data that the index of the value I'm searching and its neighboring values were all off by one. So I that added another parameter to the method, $shift, that is incremented with each recursive method call.
+
+Solved:
+I was writing out this weird problem and that's when it dawned on me. The indices are not correct because I'm using a Collection method that may not re-index the values!
+
+Method differences:
+-Slice preserves the original collection after returning a slice. The new collection preserves the original keys. If it needs to be re-indexed, use the values() method.
+-Splice alters the original collection by cutting out a slice and returning it.
+
+
+The splice method removes and returns a slice of items starting at the specified index. (Modifies original collection. Also reindexes original.)
+The slice method returns a slice of the collection starting at the given index. (Does not modify original. Returned value preserves original indices.)
+
+****************************
+Problem - External API returning a 502 bad Gateway from a curl request my app made.
+****************************
+
+Debugging steps:
+- [x] read about 502 errors online. No good source.
+- [x] Manually double-checked the URL to external api was correct. Died and dumped the url and then pasted into browser.
+- [x] Search server logs. Created a shell session for the container. Couldn't find any logs. Tried to change php.ini to display_logs or log_errors. Couldn't edit a file within the container.
+- [x] Use server that comes with php instead of Sail container. Tried again to edit php.ini constants. There was a local value that was overriding my settings, which I couldn't track down.
+- [x] Import Guzzle, replace curl request.
+WORKED! But why?
+- [ ] Since the only difference is using curl vs an abstraction layer on curl (Guzzle), read up about 502 and curl requests. Found nothing.

@@ -1,0 +1,32 @@
+    TODO
+
+    [X] Tidal provider class - NOAA:
+        - Fetches tide data from NOAA api.
+
+    [X] Tidal service class - NOAA (interface between this app and external api)
+    [X] Write spec for tidal outputs (OpenApi)
+    [X] Write spec for other sun and moon outputs (OpenApi)
+    [X] Create service class AND test
+
+    [X] BuoyUpdate Job - experiment from CLI
+        [X] dispatch job and then run the artisan queue:work command - don't need to run work command bc I'm using the sync driver which does not queue the job but executes it immediately.
+
+    [X] validates_station()
+        [X] implement rule
+        [X] Check speed of larval search method vs custom binary search
+
+    [ ] BuoyUpdate Job - implement
+    [ ] NoaaBuoyStationsTest update:
+        [ ]rename test file and base case file.
+        [ ]test public handle method only.
+        [ ]Other methods should be private.
+    [ ] FormatsInputs - modify trait to accept a format parameter. (Don't forget to test!)
+
+
+
+    - Backlog:
+        [ ] Create a cron job that checks for new.obsolete tide stations. Tools: https://api.tidesandcurrents.noaa.gov/mdapi/prod/#request
+        [ ] Rename ClimateService class to 'SunMoonService', 'CelestialService' or the likes.
+        [ ] Frontend error displaying.
+        [ ] Make the UI not Ugly.
+        [ ] Design and Implement the response UI.
