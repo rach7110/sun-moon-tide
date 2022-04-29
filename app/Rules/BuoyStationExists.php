@@ -3,12 +3,14 @@
 namespace App\Rules;
 
 use App\Traits\NoaaBuoyStationStore;
-use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
 class BuoyStationExists implements Rule
 {
     use NoaaBuoyStationStore;
+
+    /** Filename where the buoys are stored. */
+    protected $file = 'noaa_buoy_stations.txt';
 
     /**
      * Determine if the validation rule passes.
@@ -19,7 +21,9 @@ class BuoyStationExists implements Rule
      */
     public function passes($attribute, $value)
     {
-        return $this->find($value);
+        $filepath = \database_path($this->file);
+
+        return $this->find($value, $filepath);
     }
 
     /**

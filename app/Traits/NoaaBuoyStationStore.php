@@ -6,21 +6,17 @@ use Exception;
 
 trait NoaaBuoyStationStore
 {
-    /** Filename where the buoy is are stored. */
-    protected $file = "noaa_buoy_stations.txt";
-
     /**
      * Stores a comma-separated list of ids to file.
      *
      * @param string $ids
+     * @param string $filepath
      * @throws Exception
      *
      * @return void
      */
-    public function store_to_file($ids)
+    public function store_to_file($ids, $filepath)
     {
-        $filepath = database_path("{$this->file}");
-
         if (! $file_pointer = fopen($filepath, 'w')) {
             throw new Exception('Problem updating buoy stations - cannot open storage file.');
         }
@@ -40,10 +36,10 @@ trait NoaaBuoyStationStore
      *
      * @return boolean $exists;
      */
-    public function find($id)
+    public function find($id, $filepath)
     {
         // Read the list and convert to collection.
-        $contents = file_get_contents(\database_path($this->file));
+        $contents = file_get_contents($filepath);
 
         if (! $contents) {
             throw new Exception("Error opening buoy list");

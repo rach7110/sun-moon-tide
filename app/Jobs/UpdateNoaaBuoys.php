@@ -12,12 +12,17 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
+/** Requests data from NOAA buoy API and stores to file. */
 class UpdateNoaaBuoys implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, NoaaBuoyStationStore, Queueable, SerializesModels;
 
     /** The number of times the job may be attempted */
     public $tries = 5;
+
+    /** Filename where the buoys are stored. */
+    protected $file = 'noaa_buoy_stations.txt';
+    protected $filepath;
 
     /**
      * Create a new job instance.
@@ -26,7 +31,7 @@ class UpdateNoaaBuoys implements ShouldQueue
      */
     public function __construct()
     {
-
+        $filepath = database_path("{$this->file}");
     }
 
     /**
@@ -37,29 +42,13 @@ class UpdateNoaaBuoys implements ShouldQueue
     public function handle(NoaaBuoyStations $provider)
     {
         // Fetch data from external api.
-        $stations = $provider->fetch()->stations;
+        $stations = collect($provider->fetch()->stations);
 
-        // parse the ids out of result.
-        $ids = $this->parse($stations, 'id');
+        // Parse the ids out of result.
+        $ids = $stations->pluck('id')->implode(',');
 
-        $this->store_to_file($ids);
+        $this->store_to_file($ids, $this->filepath);
 
         Log::info("NoaaBuoyStations Job was executed at " . now());
-    }
-
-   /**
-     * Parse values out of the data.
-     *
-     * @param array $data
-     * @param string $key
-     *
-     * @return string $ids A comma-separated list of ids.
-     */
-    public function parse($data, $key)
-    {
-        $data = collect($data);
-        $ids = $data->pluck($key)->implode(',');
-
-        return $ids;
     }
 }
