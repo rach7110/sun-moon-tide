@@ -6,7 +6,11 @@ use GuzzleHttp\Client;
 
 class NoaaBuoyStations
 {
-    // Fetch data from external api.
+    /**
+     * Fetch data from external api.
+     *
+     * @return object $data
+     */
     public function fetch()
     {
         $url = config('climate.noaa_buoy_stations.base_url');

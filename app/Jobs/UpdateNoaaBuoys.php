@@ -37,10 +37,10 @@ class UpdateNoaaBuoys implements ShouldQueue
     public function handle(NoaaBuoyStations $provider)
     {
         // Fetch data from external api.
-        $response = $provider->fetch();
+        $stations = $provider->fetch()->stations;
 
         // parse the ids out of result.
-        $ids = $this->parse($response->stations, 'id');
+        $ids = $this->parse($stations, 'id');
 
         $this->store_to_file($ids);
 
@@ -51,14 +51,14 @@ class UpdateNoaaBuoys implements ShouldQueue
      * Parse values out of the data.
      *
      * @param array $data
-     * @param string $type
+     * @param string $key
      *
      * @return string $ids A comma-separated list of ids.
      */
-    public function parse($data, $type)
+    public function parse($data, $key)
     {
         $data = collect($data);
-        $ids = $data->pluck($type)->implode(',');
+        $ids = $data->pluck($key)->implode(',');
 
         return $ids;
     }
