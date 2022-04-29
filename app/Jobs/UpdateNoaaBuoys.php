@@ -45,8 +45,6 @@ class UpdateNoaaBuoys implements ShouldQueue
         $this->store_to_file($ids);
 
         Log::info("NoaaBuoyStations Job was executed at " . now());
-
-        //TODO migrate database - include failed jobs table
     }
 
    /**
