@@ -17,7 +17,7 @@ class ClimateDatasetsController extends Controller
 
         // Validation: built-in Laravel validation will redirect automatically with errors.
         $validated = $request->validate([
-            'date' => 'required|before:now+1year',
+            'date' => 'required|before:now+1year|date_format:m-d-Y',
             'zip' =>'required|postal_code:US',
             'timezone' =>'integer|between:-11,14',
             'stationId' => ['string', new BuoyStationExists],
