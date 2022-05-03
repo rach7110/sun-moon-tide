@@ -20,55 +20,20 @@ trait FormatsInput
     {
         $formatted = [];
 
+        $carbon_date = Carbon::createFromFormat("m-d-Y", $inputs['date'], $inputs['timezone']);
+
         if ($api === 'Solunar') {
-            $formatted['date'] = $this->format_solunar_date($inputs['date'], $inputs['timezone']);
+            $formatted['date'] = $carbon_date->startOfDay()->format('Ymd');
             $formatted['location'] = $this->convertToLatLong($inputs['zip'], $inputs['timezone']);
             $formatted['timezone'] = strval($inputs['timezone']);
         }
 
         if ($api === 'NoaaTide') {
-            $formatted['date'] = $this->format_noaa_tide_date($inputs['date'],$inputs['timezone']);
-            $formatted['station_id'] = intval($inputs['station_id'], 10);;
+            $formatted['date'] = $carbon_date->startOfDay()->format('Ymd H:i');
+            $formatted['station_id'] = intval($inputs['station_id'], 10);
         }
 
         return $formatted;
-    }
-
-    /**
-     * Format date for Solunar api.
-     *
-     * @pre Supplied date is formatted as m-d-Y
-     * @post Date will be formatted as 'Ymd'
-     *
-     * @param string $date
-     *
-     * @return $string $formatted_date
-     */
-    private function format_solunar_date($date, $tz)
-    {
-        $date_object = Carbon::createFromFormat('m-d-Y', $date, $tz);
-
-        $formatted_date = $date_object->format('Ymd');
-
-        return $formatted_date;
-    }
-
-    /**
-     * Format date to supplied format.
-     *
-     * @pre Supplied date is formatted as m-d-Y
-     * @post Date will be formatted as 'Ymd 00:00'
-     *
-     * @param string $date
-     *
-     * @return $string $formatted_date
-     */
-    private function format_noaa_tide_date($date, $tz)
-    {
-        $carbon_date = Carbon::createFromFormat("m-d-Y", $date, $tz);
-        $formatted_date = $carbon_date->startOfDay()->format('Ymd H:i');
-
-        return $formatted_date;
     }
 
     /**
