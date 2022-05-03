@@ -34,7 +34,6 @@ class NoaaTideService extends TideServiceContract
         // TODO try catch
         $dataset = $this->provider->fetch(
             $inputs['date'],
-            $inputs['timezone'],
             $inputs['station_id']
         );
 
