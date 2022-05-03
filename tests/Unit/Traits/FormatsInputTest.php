@@ -13,12 +13,6 @@ class FormatsInputTest extends TestCase
     {
         parent::setUp();
 
-        $this->inputs = [
-            'date' => "11-02-2021",
-            'timezone' => -5,
-            'zip' => 78704
-        ];
-
         $this->svc = new Class
         {
             use FormatsInput;
@@ -27,22 +21,38 @@ class FormatsInputTest extends TestCase
 
     public function test_formats_inputs_for_solunar_api()
     {
-        $format = 'Solunar';
+        $api = 'Solunar';
+
+        $inputs = [
+            'date' => "11-02-2021",
+            'timezone' => -5,
+            'zip' => 78704
+        ];
+
         $expected = [
             'date' => '20211102',
             'timezone' => '-5',
             'location' => "30.24152,-97.76877"
         ];
 
-        $this->assertEquals($expected, $this->svc->format($this->inputs, $format));
+        $this->assertEquals($expected, $this->svc->format($inputs, $api));
     }
 
     public function test_formats_inputs_for_noaa_tides_api()
     {
-        // $expected = [
-        //     'date' => '20211102',
-        //     'timezone' => '-5',
-        //     'location' => 9435380
-        // ];
+        $api = 'NoaaTide';
+
+        $inputs = [
+            'date' => "11-02-2021",
+            'timezone' => -5,
+            'station_id' => "9414290"
+        ];
+
+        $expected = [
+            'date' => '20211102 00:00',
+            'station_id' => 9414290
+        ];
+
+        $this->assertEquals($expected, $this->svc->format($inputs, $api));
     }
 }

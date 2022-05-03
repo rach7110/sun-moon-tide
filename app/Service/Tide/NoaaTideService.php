@@ -49,6 +49,7 @@ class NoaaTideService extends TideServiceContract
      * @return void
      */
     public function parse($response) {
+        // TODO handle converting to user's timezone.
         $this->high_tides = $this->extract_diurnal_tide_times($response->data, 'high');
         $this->low_tides =  $this->extract_diurnal_tide_times($response->data, 'low');
     }

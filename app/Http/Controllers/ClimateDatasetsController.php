@@ -30,7 +30,6 @@ class ClimateDatasetsController extends Controller
             'station_id' => $request->input('stationId') ?? ''
         ];
 
-
         // Format data for external apis.
         $sun_moon_formatted_inputs = $this->format($inputs, 'Solunar');
         $tides_formatted_inputs = $this->format($inputs, 'NoaaTide');
