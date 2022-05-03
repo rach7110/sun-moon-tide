@@ -4,6 +4,7 @@ namespace Tests\Unit\Traits;
 
 use App\Service\SunMoon\SolunarService;
 use App\Service\Tide\NoaaTideService;
+use App\Traits\FormatsInput;
 use Tests\TestCase;
 
 class FormatsInputTest extends TestCase
@@ -18,24 +19,30 @@ class FormatsInputTest extends TestCase
             'zip' => 78704
         ];
 
-        $this->solunar_svc = new SolunarService;
-        $this->tides_svc = new NoaaTideService;
+        $this->svc = new Class
+        {
+            use FormatsInput;
+        };
     }
 
     public function test_formats_inputs_for_solunar_api()
     {
-        $date_format = 'Ymd';
+        $format = 'Solunar';
         $expected = [
             'date' => '20211102',
             'timezone' => '-5',
             'location' => "30.24152,-97.76877"
         ];
 
-        $this->assertEquals($expected, $this->solunar_svc->format($this->inputs, $date_format));
+        $this->assertEquals($expected, $this->svc->format($this->inputs, $format));
     }
 
     public function test_formats_inputs_for_noaa_tides_api()
     {
-        // TODO
+        // $expected = [
+        //     'date' => '20211102',
+        //     'timezone' => '-5',
+        //     'location' => 9435380
+        // ];
     }
 }

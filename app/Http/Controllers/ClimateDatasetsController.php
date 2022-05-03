@@ -20,7 +20,7 @@ class ClimateDatasetsController extends Controller
             'date' => 'required|before:now+1year|date_format:m-d-Y',
             'zip' =>'required|postal_code:US',
             'timezone' =>'integer|between:-11,14',
-            'stationId' => ['string', new BuoyStationExists],
+            'stationId' => ['integer', new BuoyStationExists],
         ]);
 
         $inputs = [
@@ -31,11 +31,15 @@ class ClimateDatasetsController extends Controller
         ];
 
 
+        // Format data for external apis.
+        $sun_moon_formatted_inputs = $this->format($inputs, 'Solunar');
+        $tides_formatted_inputs = $this->format($inputs, 'NoaaTide');
+
         // Fetch data from external apis.
-        $climate_response = $climate_svc->fetch_data($inputs);
+        $climate_response = $climate_svc->fetch_data($sun_moon_formatted_inputs);
         $climate_svc->parse($climate_response);
 
-        $tides_response = $tide_svc->fetch_data($inputs);
+        $tides_response = $tide_svc->fetch_data($tides_formatted_inputs);
         $tide_svc->parse($tides_response);
 
         $climate_dataset = [

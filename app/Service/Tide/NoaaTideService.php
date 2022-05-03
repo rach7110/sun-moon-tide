@@ -31,15 +31,11 @@ class NoaaTideService extends TideServiceContract
     public function fetch_data($inputs) {
         $dataset = [];
 
-        // TODO
-        // $formatted = $this->format_inputs($inputs);
-        $formatted = $inputs;
-
         // TODO try catch
         $dataset = $this->provider->fetch(
-            $formatted['date'],
-            $formatted['timezone'],
-            $formatted['station_id']
+            $inputs['date'],
+            $inputs['timezone'],
+            $inputs['station_id']
         );
 
         return $dataset;

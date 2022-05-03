@@ -16,8 +16,16 @@ trait FormatsInput
      *
      * @return array $date_format
      */
-    public function format($inputs, $date_format)
+    public function format($inputs, $format)
     {
+        if ($format === 'Solunar') {
+            $date_format = 'Ymd';
+        }
+
+        if ($format === 'NoaaTide') {
+            $date_format = 'j-m-Y';
+        }
+
         $date = $this->format_date($inputs['date'], $date_format);
         $timezone = strval($inputs['timezone']);
 
