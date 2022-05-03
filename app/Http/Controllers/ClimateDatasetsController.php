@@ -31,8 +31,8 @@ class ClimateDatasetsController extends Controller
         ];
 
         // Format data for external apis.
-        $sun_moon_formatted_inputs = $this->format($inputs, 'Solunar');
-        $tides_formatted_inputs = $this->format($inputs, 'NoaaTide');
+        $sun_moon_formatted_inputs = $climate_svc->format($inputs, 'Solunar');
+        $tides_formatted_inputs = $tide_svc->format($inputs, 'NoaaTide');
 
         // Fetch data from external apis.
         $climate_response = $climate_svc->fetch_data($sun_moon_formatted_inputs);
