@@ -3,71 +3,59 @@
 namespace App\Traits;
 
 use DateTime;
-use Exception;
 
-/** Formats inputs for Solunar API. */
+/** Formats supplied inputs */
 trait FormatsInput
 {
     /**
-     * Formats inputs for the Solunar API.
+     * Formats supplied inputs.
      *
      * @param array $inputs
-     * @return array $formatted
+     * @param string $date_format The format for the returned date.
+     *  Any \DateTime format. Must include a day, month and year.
+     *
+     * @return array $date_format
      */
-    public function format_inputs($inputs)
+    public function format($inputs, $date_format)
     {
-        $date = $this->format_date($inputs['date']);
-        $timezone = $this->format_timezone($inputs['timezone']);
-        $location = $this->format_location($inputs['zip']);
+        $date = $this->format_date($inputs['date'], $date_format);
+        $timezone = strval($inputs['timezone']);
 
         $formatted = [
             'date' => $date,
             'timezone' => $timezone,
-            'location' => $location
         ];
+
+        // Format the zip for Solunar api.
+        if (isset($inputs['zip'])) {
+            $location = $this->convertToLatLong($inputs['zip']);
+            $formatted['location'] = $location;
+        }
+
+        // Format the station for Noaa Tide api.
+        if (isset($inputs['station_id'])) {
+            $station_id = $this->intval($inputs['station_id']);
+            $formatted['station_id'] = $station_id;
+        }
 
         return $formatted;
     }
 
     /**
-     * Format values to yyyymmdd format for Solunar API.
+     * Format date to supplied format.
      *
-     * @pre Format of $date is n-j-Y
-     * @param int|string $date
+     * @pre Supplied date is formatted as m-d-Y
+     * @param string $date
+     *
      * @return $string $formatted_date
      */
-    public function format_date($date)
+    private function format_date($date, $format)
     {
-        $format = 'n-j-Y';
-        $date_object = DateTime::createFromFormat($format, $date);
+        $date_object = DateTime::createFromFormat('m-d-Y', $date);
 
-        $formatted_date = $date_object->format('Ymd');
+        $formatted_date = $date_object->format($format);
 
         return $formatted_date;
-    }
-
-    /**
-     * Format timezone.
-     *
-     * @param string $timezone
-     * @return string
-     */
-    public function format_timezone($timezone = "0")
-    {
-        return strval($timezone);
-    }
-
-    /**
-     * Formats a zip code to latitude and longitude.
-     *
-     * @param int|string $zip
-     * @return string formatted_location
-     */
-    public function format_location($zip)
-    {
-        $formatted_location = $this->convertToLatLong($zip);
-
-        return $formatted_location;
     }
 
     /**

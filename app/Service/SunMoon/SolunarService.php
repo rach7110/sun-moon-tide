@@ -50,7 +50,7 @@ class SolunarService extends ClimateServiceContract
     {
         $dataset = [];
 
-        $formatted = $this->format_inputs($inputs);
+        $formatted = $this->format($inputs, 'Ymd');
 
         // TODO try catch
         $dataset = $this->provider->fetch(
