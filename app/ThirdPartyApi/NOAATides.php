@@ -26,9 +26,11 @@ class NoaaTides
     public function fetch($date, $station_id)
     {
         $tz = "lst";  // returns the data in the local timezone of the station.
+        // TODO include user's timezone in Carbon object.
+        $carbon_date = Carbon::createFromFormat('Ymd H:i', $date);
 
-        $begin_date = $date->copy()->subMinutes(6);
-        $end_date = $date->copy()->endOfDay()->addMinutes(7);
+        $begin_date = $carbon_date->copy()->subMinutes(6);
+        $end_date = $carbon_date->copy()->endOfDay()->addMinutes(7);
         $station=$station_id;
 
         $client = new Client([
