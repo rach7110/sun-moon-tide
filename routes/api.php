@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiTokenController;
 use App\Http\Controllers\ClimateDatasetsController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/tokens/create', [ApiTokenController::class, 'create'])->name('token');
 
 Route::post('/climate', [ClimateDatasetsController::class, 'fetch'])->name('climate');
