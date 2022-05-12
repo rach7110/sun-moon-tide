@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/tokens/create', [ApiTokenController::class, 'create'])->name('token');
+Route::post('/tokens/create', [ApiTokenController::class, 'store']);
 
 Route::post('/climate', [ClimateDatasetsController::class, 'fetch'])->name('climate');
