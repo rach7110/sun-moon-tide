@@ -82,8 +82,21 @@
                 </p>
                 </div>
               </section>
+
+              <p>Errors</p>
+              @if ($errors->any())
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+          @endif
+
             <div>
                 <form action="/api/climate" method="POST">
+                    @csrf
                     <div class="field">
                         <label class="label" for="zip">Zip</label>
                         <div class="control">
@@ -114,7 +127,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <input class="button" :disabled="disableClimateSubmit" type="submit"/>
+                            <input class="button" type="submit"/>
                         </div>
                     </div>
                 </form>
@@ -123,27 +136,27 @@
     </body>
 </html>
 
-<script src="https://unpkg.com/vue@next"></script>
+{{-- <script src="https://unpkg.com/vue@next"></script> --}}
 
 <script>
-    const ClimateData = {
-        data() {
-            return {
-                zip: '',
-                stationId: '',
-                date: '',
-                timezone: '',
-            }
-        },
-        computed: {
-            disableClimateSubmit() {
-                return this.zip === '' || this.date === '' || this.timezone === '';
-            },
-        },
-    }
+    // const ClimateData = {
+    //     data() {
+    //         return {
+    //             zip: '',
+    //             stationId: '',
+    //             date: '',
+    //             timezone: '',
+    //         }
+    //     },
+    //     computed: {
+    //         disableClimateSubmit() {
+    //             return this.zip === '' || this.date === '' || this.timezone === '';
+    //         },
+    //     },
+    // }
 
-    const app = Vue.createApp(ClimateData);
-    const vm = app.mount('#root');
+    // const app = Vue.createApp(ClimateData);
+    // const vm = app.mount('#root');
 
 </script>
 
