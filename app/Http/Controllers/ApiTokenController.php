@@ -3,14 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiTokenController extends Controller
 {
-    public function create(Request $request)
+    /**
+     * Handle an incoming authentication request.
+     *
+     * @param  Illiuminate\Http\Request
+     * @return array
+     */
+    public function store(Request $request)
     {
-        // BUG : null user.
-        $token = $request->user()->createToken($request->token_name);
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
-        return ['token' => $token->plainTextToken];
+
+        if (Auth::attempt($credentials)) {
+
+            $request->session()->regenerate();
+            $token = $request->user()->createToken($request->token_name);
+
+            return ['token' => $token->plainTextToken];
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 }
