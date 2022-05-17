@@ -20,11 +20,8 @@ class ApiTokenController extends Controller
             'password' => ['required'],
         ]);
 
-
         if (Auth::attempt($credentials)) {
-
-            $request->session()->regenerate();
-            $token = $request->user()->createToken($request->token_name);
+            $token = $request->user()->createToken('api_token');
 
             return ['token' => $token->plainTextToken];
         }
