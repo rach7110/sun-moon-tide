@@ -100,14 +100,14 @@
                     <div class="field">
                         <label class="label" for="zip">Zip</label>
                         <div class="control">
-                            <input class="input" type="text" v-model=zip placeholder="78704" name="zip" required="required"/>
+                            <input class="input" type="text" value="78704" placeholder="78704" name="zip" required="required"/>
                         </div>
                     </div>
 
                     <div class="field">
                         <label class="label" for="date">Station ID</label>
                         <div class="control">
-                            <input class="input" type="text" v-model=stationId name="stationId" required="required"/>
+                            <input class="input" type="text" value="1" name="stationId" required="required"/>
                         </div>
                     </div>
 
@@ -116,13 +116,13 @@
                     <div class="field">
                         <label class="label" for="timezone">Timezone</label>
                         <div class="control">
-                            <input class="input" type="text" v-model=timezone placeholder="-5" name="timezone" required="required"/>
+                            <input class="input" type="text" value="-55" placeholder="-5" name="timezone" required="required"/>
                         </div>
                     </div>
                     <div class="field">
                         <label class="label" for="date">Date</label>
                         <div class="control">
-                            <input class="input" type="text" v-model=date name="date" required="required"/>
+                            <input class="input" type="text" value="01-05-2022" name="date" required="required"/>
                         </div>
                     </div>
                     <div class="field">
