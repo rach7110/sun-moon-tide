@@ -17,4 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/tokens/create', [ApiTokenController::class, 'store']);
 
-Route::post('/climate', [ClimateDatasetsController::class, 'fetch'])->name('climate');
+Route::post('/climate', [ClimateDatasetsController::class, 'fetch'])->name('climate')->middleware('auth:sanctum');
