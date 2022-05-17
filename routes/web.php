@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClimateDatasetsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/post/create', function () {
+    return view('posts.new');
 });
 
 Route::get('/climate/create', function() {

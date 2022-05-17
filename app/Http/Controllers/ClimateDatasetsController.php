@@ -6,17 +6,38 @@ use App\Contracts\ClimateServiceContract;
 use App\Contracts\TideServiceContract;
 use App\Rules\BuoyStationExists;
 use Exception;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClimateDatasetsController extends Controller
 {
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'min:6'
+        ]);
+
+        // dd($validator->errors());
+
+        return redirect('post/create')->withErrors($validator);
+
+        $request->validate([
+            'title' => 'min:6'
+        ]);
+
+
+
+        dd('Validation success!');
+    }
 
     public function fetch(Request $request, ClimateServiceContract $climate_svc, TideServiceContract $tide_svc)
     {
         $climate_dataset = [];
 
         // Validation: built-in Laravel validation will redirect automatically with errors.
-        $validated = $request->validate([
+        $request->validate([
             'date' => 'required|before:now+1year|date_format:m-d-Y',
             'zip' =>'required|postal_code:US',
             'timezone' =>'integer|between:-11,14',
