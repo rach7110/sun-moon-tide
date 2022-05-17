@@ -37,6 +37,7 @@ class UpdateNoaaBuoys implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param App\ThirdPartyApi\NoaaBuoyStations;
      * @return void
      */
     public function handle(NoaaBuoyStations $provider)

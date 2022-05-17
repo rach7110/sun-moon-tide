@@ -12,14 +12,14 @@ class UpdateBuoyStations extends Command
      *
      * @var string
      */
-    protected $signature = 'buoys:name';
+    protected $signature = 'updateBuoys';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Send a request to teh NOAA api and write buoy ids to file.';
 
     /**
      * Create a new command instance.
