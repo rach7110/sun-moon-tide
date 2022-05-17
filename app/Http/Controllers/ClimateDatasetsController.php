@@ -12,26 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ClimateDatasetsController extends Controller
 {
-
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'min:6'
-        ]);
-
-        // dd($validator->errors());
-
-        return redirect('post/create')->withErrors($validator);
-
-        $request->validate([
-            'title' => 'min:6'
-        ]);
-
-
-
-        dd('Validation success!');
-    }
-
     public function fetch(Request $request, ClimateServiceContract $climate_svc, TideServiceContract $tide_svc)
     {
         $climate_dataset = [];
