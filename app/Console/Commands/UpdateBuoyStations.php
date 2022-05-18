@@ -19,7 +19,7 @@ class UpdateBuoyStations extends Command
      *
      * @var string
      */
-    protected $description = 'Send a request to teh NOAA api and write buoy ids to file.';
+    protected $description = 'Checks if there are changes to the NOAA buoy identifiers and stores in a local file.';
 
     /**
      * Create a new command instance.
