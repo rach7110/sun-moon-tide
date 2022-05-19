@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ClimateServiceContract;
 use App\Contracts\TideServiceContract;
-use App\Rules\BuoyStationExists;
+use App\Rules\ValidBuoyStationId;
 use Exception;
 use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class ClimateDatasetsController extends Controller
             'date' => 'required|before:now+1year|date_format:m-d-Y',
             'zip' =>'required|postal_code:US',
             'timezone' =>'integer|between:-11,14',
-            'stationId' => ['integer', new BuoyStationExists],
+            'stationId' => ['integer', new ValidBuoyStationId],
         ]);
 
         $inputs = [

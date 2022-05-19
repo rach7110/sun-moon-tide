@@ -5,7 +5,7 @@ namespace App\Rules;
 use App\Traits\NoaaBuoyStationStore;
 use Illuminate\Contracts\Validation\Rule;
 
-class BuoyStationExists implements Rule
+class ValidBuoyStationId implements Rule
 {
     use NoaaBuoyStationStore;
 
