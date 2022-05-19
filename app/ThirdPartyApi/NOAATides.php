@@ -5,7 +5,7 @@ namespace App\ThirdPartyApi;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 
-/** Interacts with the NOAA external API. */
+/** Fetches tidal data from the NOAA external API. */
 class NoaaTides
 {
     protected $base_url;

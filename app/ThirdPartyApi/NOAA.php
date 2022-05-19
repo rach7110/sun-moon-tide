@@ -2,7 +2,7 @@
 
 namespace App\ThirdPartyApi;
 
-/** Interacts with the NOAA external API. */
+/** Fetches sun and moon data from the NOAA API. */
 class Noaa
 {
     protected $base_url;

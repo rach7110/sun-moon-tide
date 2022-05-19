@@ -2,7 +2,7 @@
 
 namespace App\ThirdPartyApi;
 
-/** Interacts with the Solunar external API. */
+/** Fetches sun and moon data from the Solunar API. */
 class Solunar
 {
     protected $base_url;

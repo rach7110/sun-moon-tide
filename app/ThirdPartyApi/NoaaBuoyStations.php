@@ -4,6 +4,7 @@ namespace App\ThirdPartyApi;
 
 use GuzzleHttp\Client;
 
+/** Fetches buoy station ids from external API */
 class NoaaBuoyStations
 {
     /**

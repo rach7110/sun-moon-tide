@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Exception;
 
+/** Interact with the locally saved NOAA buoy station ids.*/
 trait NoaaBuoyStationStore
 {
     /**
