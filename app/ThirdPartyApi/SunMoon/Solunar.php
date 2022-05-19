@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ThirdPartyApi;
+namespace App\ThirdPartyApi\SunMoon;
 
 /** Fetches sun and moon data from the Solunar API. */
 class Solunar

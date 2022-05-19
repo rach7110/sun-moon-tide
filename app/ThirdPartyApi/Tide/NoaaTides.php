@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ThirdPartyApi;
+namespace App\ThirdPartyApi\Tide;
 
 use Carbon\Carbon;
 use GuzzleHttp\Client;

@@ -3,7 +3,7 @@
 namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
-use App\ThirdPartyApi\Solunar;
+use App\ThirdPartyApi\SunMoon\Solunar;
 use App\Traits\FormatsInput;
 use Exception;
 

@@ -3,7 +3,7 @@
 namespace App\Service\SunMoon;
 
 use App\Contracts\ClimateServiceContract;
-use App\ThirdPartyApi\Noaa;
+use App\ThirdPartyApi\SunMoon\Noaa;
 
 class NoaaService implements ClimateServiceContract
 {

@@ -3,7 +3,7 @@
 namespace App\Service\Tide;
 
 use App\Contracts\TideServiceContract;
-use App\ThirdPartyApi\NoaaTides;
+use App\ThirdPartyApi\Tide\NoaaTides;
 use App\Traits\FormatsInput;
 use Carbon\Carbon;
 
