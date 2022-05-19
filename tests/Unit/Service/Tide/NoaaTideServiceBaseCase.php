@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Unit\Tide;
+namespace Tests\Unit\Service\Tide;
 
 use Tests\TestCase;
 

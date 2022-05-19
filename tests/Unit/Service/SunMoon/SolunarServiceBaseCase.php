@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Unit\SunMoon;
+namespace Tests\Unit\Service\SunMoon;
 
 use Tests\TestCase;
 

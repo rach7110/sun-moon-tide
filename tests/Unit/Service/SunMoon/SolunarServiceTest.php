@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\SunMoon;
+namespace Tests\Unit\Service\SunMoon;
 
 use App\Service\SunMoon\SolunarService;
-use Tests\Unit\SunMoon\SolunarServiceBaseCase;
+use Tests\Unit\Service\SunMoon\SolunarServiceBaseCase;
 
 class SolunarServiceTest extends SolunarServiceBaseCase
 {

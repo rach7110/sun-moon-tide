@@ -1,9 +1,9 @@
 <?php
 
-namespace Test\Unit\Tide;
+namespace Test\Unit\Service\Tide;
 
 use App\Service\Tide\NoaaTideService;
-use Tests\Unit\Tide\NoaaTideServiceBaseCase;
+use Tests\Unit\Service\Tide\NoaaTideServiceBaseCase;
 
 class NoaaTideServiceTest extends NoaaTideServiceBaseCase
 {
