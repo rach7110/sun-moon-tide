@@ -97,7 +97,7 @@
                     <div class="field">
                         <label class="label" for="date">Station ID</label>
                         <div class="control">
-                            <input class="input" type="text" value="1" name="stationId" required="required"/>
+                            <input class="input" type="text" value="9435380" name="stationId" required="required"/>
                         </div>
                     </div>
 
