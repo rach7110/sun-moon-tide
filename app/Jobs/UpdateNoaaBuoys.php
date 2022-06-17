@@ -31,19 +31,19 @@ class UpdateNoaaBuoys implements ShouldQueue
      */
     public function __construct()
     {
-        $filepath = database_path("{$this->file}");
+        $this->filepath = database_path("{$this->file}");
+        $this->provider = new NoaaBuoyStations;
     }
 
     /**
      * Execute the job.
      *
-     * @param App\ThirdPartyApi\NoaaBuoyStations;
      * @return void
      */
-    public function handle(NoaaBuoyStations $provider)
+    public function handle()
     {
         // Fetch data from external api.
-        $stations = collect($provider->fetch()->stations);
+        $stations = collect($this->provider->fetch()->stations);
 
         // Parse the ids out of result.
         $ids = $stations->pluck('id')->implode(',');
