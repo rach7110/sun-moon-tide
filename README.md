@@ -55,16 +55,16 @@ $ php artisan migrate
 Before using the web application or the API, you must create a user account.
 
 Web Application
-After registering, you may access the app through the web browser which stores a session authentication cookie.
+After registering a user account, you may access the app through the web browser which stores a session authentication cookie.
 
 API
-Alternatively, there is an API that returns a json object with the climate ata. To access the API response, you will first need to generate a token using your email and password.
+Alternatively, there is an API that returns a json object with the climate data. To access the API, you will first need to generate a token using your email and password.
 Send a request to `{address}/api/tokens/create` with your credentials in a json object in the request body. Example:
 `{"email":"{{email_prod}}","password":"{{password_prod}}"}`
 
 Copy the token from the response.
 
-Next, send a POST request to {address}/api/climate`. In the request Header, include a `Authorization` key with a value of `Bearer:  {your_token}`
+Next, send a POST request to `{address}/api/climate`. In the request Header, include a `Authorization` key with a value of `Bearer:  {your_token}`
 
 ### Branches
 TODO
@@ -91,4 +91,6 @@ updateBuoys             | Checks if there are changes to the NOAA buoy identifie
 #### Testing
 Unit and feature tests are included and live in the `tests/` folder.
 PHPUnit, which is included with Laravel, can be used for testing.
+```
 $ vendor/bin/phpunit tests/
+```
