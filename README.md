@@ -17,7 +17,7 @@ These instructions will get you a copy of the project up and running on your loc
 * Node 12.18
 ### Installation
 
-A step by step guide that will tell you how to get the development environment up and running.
+A step by step guide that will tell you how to get your development environment up and running.
 
 ```
 $ git clone https://github.com/rach7110/sun-moon-tide
@@ -52,7 +52,7 @@ $ php artisan migrate
 ```
 
 ## Usage
-Before using the web application or the API, you must create a user account.
+Before using the web application or the API, you must first register a user account.
 
 Web Application
 After registering a user account, you may access the app through the web browser which stores a session authentication cookie.
