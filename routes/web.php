@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/climate/create', function() {
     return view('climatedata');
-})->name('climatedata');
+})->middleware('auth:sanctum')->name('climatedata');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
