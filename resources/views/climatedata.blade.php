@@ -15,7 +15,7 @@
     <body>
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-              <a class="navbar-item" href="{{route('welcome')}}">
+              <a class="navbar-item navbar-item--white" href="{{route('welcome')}}">
                 Sun Moon Tide
               </a>
 
@@ -49,16 +49,15 @@
             </div>
           </nav>
 
-        <div class="container" id="root">
-            <section class="hero is-primary">
-                <div class="hero-body">
+        <div class="container is-max-desktop min-h-screen" id="root">
+            <section class="notification notification--green is-primary">
+                <div class="">
                   <p class="title">
                     Climate Data
                   </p>
-                  <p class="subtitle">
+                    <p class="subtitle">
                     See what the sun, moon, and tide are up to today.
                 </p>
-                </div>
               </section>
 
               @if ($errors->any())
@@ -72,7 +71,7 @@
               </div>
           @endif
 
-            <div>
+            <div class="container is-max-desktop">
                 <form action="/api/climate" method="POST">
                     @csrf
                     <div class="field">
@@ -87,9 +86,9 @@
                         <div class="control">
                             <input class="input" type="text" value="9435380" name="stationId" required="required"/>
                         </div>
+                        <a class="link--gray" href="https://tidesandcurrents.noaa.gov/map/" target="blank">Station Lookup</a>
                     </div>
 
-                    <a href="https://tidesandcurrents.noaa.gov/map/" target="blank">Station Lookup</a>
 
                     <div class="field">
                         <label class="label" for="timezone">Timezone</label>
@@ -105,7 +104,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <input class="button" type="submit"/>
+                            <input class="button button--green" type="submit" value="Submit"/>
                         </div>
                     </div>
                 </form>
@@ -141,5 +140,38 @@
 <style>
     body {
         font-family: 'Nunito', sans-serif;
+        background-color: #1a202c;
+        margin-bottom: 71px;
+    }
+    nav.navbar {
+        background-color: #1a202c;
+    }
+
+    .navbar-item--white {
+        color: #e0e1e4;
+    }
+
+    label.label {
+        color: #e0e1e4;
+        font-size: 1.1rem;
+    }
+
+    .link--gray {
+        color: #a0aec0;
+    }
+    .input {
+        color: #e0e1e4;
+        background-color: #2d3748
+    }
+    .notification--green.notification.is-primary {
+        background-color: #127369;
+    }
+
+    .button.button--green {
+        background-color: #8AA6A3;
+        border-color: #8AA6A3;
+    }
+    .min-h-screen {
+        min-height: 100vh;
     }
 </style>
