@@ -59,13 +59,13 @@ trait FormatsInput
     }
 
     /**
-     * Performs a binary search in an array where items are formatted as such:
+     * Performs a binary search for target in array.
+     * The array items contain the zip, lat, long and are formatted as such:
      * 78704 "30.24152,-97.76877"
-     * (zip, "latitude, longitude")
      *
      * @param array $an_array
-     * @param int $first
-     * @param int $last
+     * @param int $first Index of first item in array
+     * @param int $last Index of last item in array
      * @param int $target
      * @return int $index
      */
